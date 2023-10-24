@@ -53,13 +53,15 @@ struct ContentView: View {
     }
 
     func sendDataToServer(steps: Int) {
-        let url = URL(string: "YOUR_SERVER_URL")!
+        let url = URL(string: "http://0.0.0.0:8000/receive_data")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let parameters: [String: Any] = ["steps": steps]
         request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
-
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        print("Conecting your seaver \(url)")
+        print("send data is :\(parameters)" )
+        URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
             if let error = error {
                 print("Error sending data: \(error)")
             }
