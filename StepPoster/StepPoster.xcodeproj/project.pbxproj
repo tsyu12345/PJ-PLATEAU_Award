@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E7A91982AE79668005BDB6B /* PLATEAU-Run Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0E7A91972AE79668005BDB6B /* PLATEAU-Run Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0E7A919D2AE79668005BDB6B /* PLATEAU_RunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A919C2AE79668005BDB6B /* PLATEAU_RunApp.swift */; };
-		0E7A919F2AE79668005BDB6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A919E2AE79668005BDB6B /* ContentView.swift */; };
-		0E7A91A12AE79669005BDB6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7A91A02AE79669005BDB6B /* Assets.xcassets */; };
-		0E7A91A42AE79669005BDB6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7A91A32AE79669005BDB6B /* Preview Assets.xcassets */; };
+		0E7A91BE2AE7C6A6005BDB6B /* StepPoster Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0E7A91C32AE7C6A6005BDB6B /* StepPosterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */; };
+		0E7A91C52AE7C6A6005BDB6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */; };
+		0E7A91C72AE7C6A8005BDB6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7A91C62AE7C6A8005BDB6B /* Assets.xcassets */; };
+		0E7A91CA2AE7C6A8005BDB6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E7A91C92AE7C6A8005BDB6B /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0E7A91992AE79668005BDB6B /* PBXContainerItemProxy */ = {
+		0E7A91BF2AE7C6A6005BDB6B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0E7A918B2AE79667005BDB6B /* Project object */;
+			containerPortal = 0E7A91B12AE7C6A5005BDB6B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0E7A91962AE79668005BDB6B;
-			remoteInfo = "PLATEAU-Run Watch App";
+			remoteGlobalIDString = 0E7A91BC2AE7C6A6005BDB6B;
+			remoteInfo = "StepPoster Watch App";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0E7A91AA2AE79669005BDB6B /* Embed Watch Content */ = {
+		0E7A91D02AE7C6A8005BDB6B /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				0E7A91982AE79668005BDB6B /* PLATEAU-Run Watch App.app in Embed Watch Content */,
+				0E7A91BE2AE7C6A6005BDB6B /* StepPoster Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,18 +39,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E7A91912AE79668005BDB6B /* PLATEAU-Run.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PLATEAU-Run.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E7A91972AE79668005BDB6B /* PLATEAU-Run Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PLATEAU-Run Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E7A919C2AE79668005BDB6B /* PLATEAU_RunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLATEAU_RunApp.swift; sourceTree = "<group>"; };
-		0E7A919E2AE79668005BDB6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0E7A91A02AE79669005BDB6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0E7A91A32AE79669005BDB6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		0E7A91AE2AE7985F005BDB6B /* PLATEAU-Run-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "PLATEAU-Run-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
-		0E7A91AF2AE79929005BDB6B /* PLATEAU-Run Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PLATEAU-Run Watch App.entitlements"; sourceTree = "<group>"; };
+		0E7A91B72AE7C6A5005BDB6B /* StepPoster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepPoster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StepPoster Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPosterApp.swift; sourceTree = "<group>"; };
+		0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0E7A91C62AE7C6A8005BDB6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0E7A91C92AE7C6A8005BDB6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0E7A91942AE79668005BDB6B /* Frameworks */ = {
+		0E7A91BA2AE7C6A6005BDB6B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,40 +58,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0E7A918A2AE79667005BDB6B = {
+		0E7A91B02AE7C6A5005BDB6B = {
 			isa = PBXGroup;
 			children = (
-				0E7A919B2AE79668005BDB6B /* PLATEAU-Run Watch App */,
-				0E7A91922AE79668005BDB6B /* Products */,
+				0E7A91C12AE7C6A6005BDB6B /* StepPoster Watch App */,
+				0E7A91B82AE7C6A5005BDB6B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		0E7A91922AE79668005BDB6B /* Products */ = {
+		0E7A91B82AE7C6A5005BDB6B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0E7A91912AE79668005BDB6B /* PLATEAU-Run.app */,
-				0E7A91972AE79668005BDB6B /* PLATEAU-Run Watch App.app */,
+				0E7A91B72AE7C6A5005BDB6B /* StepPoster.app */,
+				0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0E7A919B2AE79668005BDB6B /* PLATEAU-Run Watch App */ = {
+		0E7A91C12AE7C6A6005BDB6B /* StepPoster Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				0E7A91AF2AE79929005BDB6B /* PLATEAU-Run Watch App.entitlements */,
-				0E7A91AE2AE7985F005BDB6B /* PLATEAU-Run-Watch-App-Info.plist */,
-				0E7A919C2AE79668005BDB6B /* PLATEAU_RunApp.swift */,
-				0E7A919E2AE79668005BDB6B /* ContentView.swift */,
-				0E7A91A02AE79669005BDB6B /* Assets.xcassets */,
-				0E7A91A22AE79669005BDB6B /* Preview Content */,
+				0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */,
+				0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */,
+				0E7A91C62AE7C6A8005BDB6B /* Assets.xcassets */,
+				0E7A91C82AE7C6A8005BDB6B /* Preview Content */,
 			);
-			path = "PLATEAU-Run Watch App";
+			path = "StepPoster Watch App";
 			sourceTree = "<group>";
 		};
-		0E7A91A22AE79669005BDB6B /* Preview Content */ = {
+		0E7A91C82AE7C6A8005BDB6B /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				0E7A91A32AE79669005BDB6B /* Preview Assets.xcassets */,
+				0E7A91C92AE7C6A8005BDB6B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -101,59 +97,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0E7A91902AE79668005BDB6B /* PLATEAU-Run */ = {
+		0E7A91B62AE7C6A5005BDB6B /* StepPoster */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E7A91AB2AE79669005BDB6B /* Build configuration list for PBXNativeTarget "PLATEAU-Run" */;
+			buildConfigurationList = 0E7A91D12AE7C6A8005BDB6B /* Build configuration list for PBXNativeTarget "StepPoster" */;
 			buildPhases = (
-				0E7A918F2AE79668005BDB6B /* Resources */,
-				0E7A91AA2AE79669005BDB6B /* Embed Watch Content */,
+				0E7A91B52AE7C6A5005BDB6B /* Resources */,
+				0E7A91D02AE7C6A8005BDB6B /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0E7A919A2AE79668005BDB6B /* PBXTargetDependency */,
+				0E7A91C02AE7C6A6005BDB6B /* PBXTargetDependency */,
 			);
-			name = "PLATEAU-Run";
-			productName = "PLATEAU-Run";
-			productReference = 0E7A91912AE79668005BDB6B /* PLATEAU-Run.app */;
+			name = StepPoster;
+			productName = StepPoster;
+			productReference = 0E7A91B72AE7C6A5005BDB6B /* StepPoster.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
 		};
-		0E7A91962AE79668005BDB6B /* PLATEAU-Run Watch App */ = {
+		0E7A91BC2AE7C6A6005BDB6B /* StepPoster Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E7A91A72AE79669005BDB6B /* Build configuration list for PBXNativeTarget "PLATEAU-Run Watch App" */;
+			buildConfigurationList = 0E7A91CD2AE7C6A8005BDB6B /* Build configuration list for PBXNativeTarget "StepPoster Watch App" */;
 			buildPhases = (
-				0E7A91932AE79668005BDB6B /* Sources */,
-				0E7A91942AE79668005BDB6B /* Frameworks */,
-				0E7A91952AE79668005BDB6B /* Resources */,
+				0E7A91B92AE7C6A6005BDB6B /* Sources */,
+				0E7A91BA2AE7C6A6005BDB6B /* Frameworks */,
+				0E7A91BB2AE7C6A6005BDB6B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "PLATEAU-Run Watch App";
-			productName = "PLATEAU-Run Watch App";
-			productReference = 0E7A91972AE79668005BDB6B /* PLATEAU-Run Watch App.app */;
+			name = "StepPoster Watch App";
+			productName = "StepPoster Watch App";
+			productReference = 0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		0E7A918B2AE79667005BDB6B /* Project object */ = {
+		0E7A91B12AE7C6A5005BDB6B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					0E7A91902AE79668005BDB6B = {
+					0E7A91B62AE7C6A5005BDB6B = {
 						CreatedOnToolsVersion = 14.3;
 					};
-					0E7A91962AE79668005BDB6B = {
+					0E7A91BC2AE7C6A6005BDB6B = {
 						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
-			buildConfigurationList = 0E7A918E2AE79667005BDB6B /* Build configuration list for PBXProject "PLATEAU-Run" */;
+			buildConfigurationList = 0E7A91B42AE7C6A5005BDB6B /* Build configuration list for PBXProject "StepPoster" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -161,58 +157,58 @@
 				en,
 				Base,
 			);
-			mainGroup = 0E7A918A2AE79667005BDB6B;
-			productRefGroup = 0E7A91922AE79668005BDB6B /* Products */;
+			mainGroup = 0E7A91B02AE7C6A5005BDB6B;
+			productRefGroup = 0E7A91B82AE7C6A5005BDB6B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0E7A91902AE79668005BDB6B /* PLATEAU-Run */,
-				0E7A91962AE79668005BDB6B /* PLATEAU-Run Watch App */,
+				0E7A91B62AE7C6A5005BDB6B /* StepPoster */,
+				0E7A91BC2AE7C6A6005BDB6B /* StepPoster Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0E7A918F2AE79668005BDB6B /* Resources */ = {
+		0E7A91B52AE7C6A5005BDB6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0E7A91952AE79668005BDB6B /* Resources */ = {
+		0E7A91BB2AE7C6A6005BDB6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E7A91A42AE79669005BDB6B /* Preview Assets.xcassets in Resources */,
-				0E7A91A12AE79669005BDB6B /* Assets.xcassets in Resources */,
+				0E7A91CA2AE7C6A8005BDB6B /* Preview Assets.xcassets in Resources */,
+				0E7A91C72AE7C6A8005BDB6B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0E7A91932AE79668005BDB6B /* Sources */ = {
+		0E7A91B92AE7C6A6005BDB6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E7A919F2AE79668005BDB6B /* ContentView.swift in Sources */,
-				0E7A919D2AE79668005BDB6B /* PLATEAU_RunApp.swift in Sources */,
+				0E7A91C52AE7C6A6005BDB6B /* ContentView.swift in Sources */,
+				0E7A91C32AE7C6A6005BDB6B /* StepPosterApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0E7A919A2AE79668005BDB6B /* PBXTargetDependency */ = {
+		0E7A91C02AE7C6A6005BDB6B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0E7A91962AE79668005BDB6B /* PLATEAU-Run Watch App */;
-			targetProxy = 0E7A91992AE79668005BDB6B /* PBXContainerItemProxy */;
+			target = 0E7A91BC2AE7C6A6005BDB6B /* StepPoster Watch App */;
+			targetProxy = 0E7A91BF2AE7C6A6005BDB6B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E7A91A52AE79669005BDB6B /* Debug */ = {
+		0E7A91CB2AE7C6A8005BDB6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -270,7 +266,7 @@
 			};
 			name = Debug;
 		};
-		0E7A91A62AE79669005BDB6B /* Release */ = {
+		0E7A91CC2AE7C6A8005BDB6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -321,22 +317,19 @@
 			};
 			name = Release;
 		};
-		0E7A91A82AE79669005BDB6B /* Debug */ = {
+		0E7A91CE2AE7C6A8005BDB6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "PLATEAU-Run Watch App/PLATEAU-Run Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PLATEAU-Run Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"StepPoster Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = 329U5PB26F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PLATEAU-Run-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "PLATEAU-Run";
+				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "read health data";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "write health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -344,7 +337,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "mypj.PLATEAU-Run.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = mypj.StepPoster.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -355,22 +348,19 @@
 			};
 			name = Debug;
 		};
-		0E7A91A92AE79669005BDB6B /* Release */ = {
+		0E7A91CF2AE7C6A8005BDB6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "PLATEAU-Run Watch App/PLATEAU-Run Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PLATEAU-Run Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"StepPoster Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = 329U5PB26F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PLATEAU-Run-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "PLATEAU-Run";
+				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "read health data";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "write health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -378,7 +368,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "mypj.PLATEAU-Run.watchkitapp";
+				PRODUCT_BUNDLE_IDENTIFIER = mypj.StepPoster.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -390,32 +380,32 @@
 			};
 			name = Release;
 		};
-		0E7A91AC2AE79669005BDB6B /* Debug */ = {
+		0E7A91D22AE7C6A8005BDB6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 329U5PB26F;
-				INFOPLIST_KEY_CFBundleDisplayName = "PLATEAU-Run";
+				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "mypj.PLATEAU-Run";
+				PRODUCT_BUNDLE_IDENTIFIER = mypj.StepPoster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		0E7A91AD2AE79669005BDB6B /* Release */ = {
+		0E7A91D32AE7C6A8005BDB6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 329U5PB26F;
-				INFOPLIST_KEY_CFBundleDisplayName = "PLATEAU-Run";
+				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "mypj.PLATEAU-Run";
+				PRODUCT_BUNDLE_IDENTIFIER = mypj.StepPoster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -426,34 +416,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E7A918E2AE79667005BDB6B /* Build configuration list for PBXProject "PLATEAU-Run" */ = {
+		0E7A91B42AE7C6A5005BDB6B /* Build configuration list for PBXProject "StepPoster" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E7A91A52AE79669005BDB6B /* Debug */,
-				0E7A91A62AE79669005BDB6B /* Release */,
+				0E7A91CB2AE7C6A8005BDB6B /* Debug */,
+				0E7A91CC2AE7C6A8005BDB6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0E7A91A72AE79669005BDB6B /* Build configuration list for PBXNativeTarget "PLATEAU-Run Watch App" */ = {
+		0E7A91CD2AE7C6A8005BDB6B /* Build configuration list for PBXNativeTarget "StepPoster Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E7A91A82AE79669005BDB6B /* Debug */,
-				0E7A91A92AE79669005BDB6B /* Release */,
+				0E7A91CE2AE7C6A8005BDB6B /* Debug */,
+				0E7A91CF2AE7C6A8005BDB6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0E7A91AB2AE79669005BDB6B /* Build configuration list for PBXNativeTarget "PLATEAU-Run" */ = {
+		0E7A91D12AE7C6A8005BDB6B /* Build configuration list for PBXNativeTarget "StepPoster" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E7A91AC2AE79669005BDB6B /* Debug */,
-				0E7A91AD2AE79669005BDB6B /* Release */,
+				0E7A91D22AE7C6A8005BDB6B /* Debug */,
+				0E7A91D32AE7C6A8005BDB6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 0E7A918B2AE79667005BDB6B /* Project object */;
+	rootObject = 0E7A91B12AE7C6A5005BDB6B /* Project object */;
 }

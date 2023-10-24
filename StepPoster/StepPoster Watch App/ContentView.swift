@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  StepPoster Watch App
+//
+//  Created by 高林秀 on 2023/10/24.
+//
+
 import SwiftUI
 import HealthKit
 
@@ -59,6 +66,7 @@ struct ContentView: View {
         }.resume()
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
