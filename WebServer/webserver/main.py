@@ -6,14 +6,11 @@ from pydantic import BaseModel
 app = FastAPI()
 
 class ActivityData(BaseModel):
-    energy: float
-    distance: float
     steps: int
 
 @app.post("/receive_data")
 async def receive_data(data: ActivityData):
-    # ここでデータを処理する
-    print(data.energy, data.distance, data.steps)
+    print(data)
     return {"message": "Data received successfully"}
 
 
