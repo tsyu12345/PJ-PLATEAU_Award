@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "webserver"
+version = "0.1.0"
+description = ""
+authors = ["SO 高林秀 <s.takabayashi@super-one.co.jp>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.104.0"
+uvicorn = "^0.23.2"
+poethepoet = "^0.24.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+hoge.shell = "echo hoge"
+start.shell = "python webserver/main.py"
