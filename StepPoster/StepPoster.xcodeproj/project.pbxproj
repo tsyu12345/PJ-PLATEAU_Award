@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E06BE632AF0ED8700F00001 /* ServerManeger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06BE622AF0ED8700F00001 /* ServerManeger.swift */; };
 		0E7A91BE2AE7C6A6005BDB6B /* StepPoster Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0E7A91C32AE7C6A6005BDB6B /* StepPosterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */; };
 		0E7A91C52AE7C6A6005BDB6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E06BE622AF0ED8700F00001 /* ServerManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerManeger.swift; sourceTree = "<group>"; };
 		0E7A91B72AE7C6A5005BDB6B /* StepPoster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepPoster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StepPoster Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPosterApp.swift; sourceTree = "<group>"; };
@@ -58,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E06BE612AF0EC8B00F00001 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				0E06BE622AF0ED8700F00001 /* ServerManeger.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		0E7A91B02AE7C6A5005BDB6B = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +88,7 @@
 		0E7A91C12AE7C6A6005BDB6B /* StepPoster Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				0E06BE612AF0EC8B00F00001 /* Modules */,
 				0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */,
 				0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */,
 				0E7A91C62AE7C6A8005BDB6B /* Assets.xcassets */,
@@ -194,6 +205,7 @@
 			files = (
 				0E7A91C52AE7C6A6005BDB6B /* ContentView.swift in Sources */,
 				0E7A91C32AE7C6A6005BDB6B /* StepPosterApp.swift in Sources */,
+				0E06BE632AF0ED8700F00001 /* ServerManeger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
