@@ -54,7 +54,7 @@ struct ContentView: View {
     }
 
     func sendDataToServer(steps: Int) {
-        let url = URL(string: "ws://0.0.0.0:8000/step_data")!
+        let url = URL(string: "ws://127.0.0.1:8000/ws_post_step")!
         
         // WebSocketの接続を確立
         if webSocketTask == nil {
