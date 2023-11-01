@@ -12,22 +12,23 @@ let healthStore = HKHealthStore()
 
 struct ContentView: View {
     @State private var steps: Int = 0
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    var body: some View {
-        VStack {
-            Text("Steps: \(steps)")
-        }
-        .onAppear {
-            requestHealthKitAuthorization()
-        }
-        .onReceive(timer) { _ in
-            fetchStepsData { s in
-                steps = s
+        let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+        
+        var body: some View {
+            VStack {
+                Text("Steps: \(steps)")
+                    .font(.largeTitle) // テキストのフォントサイズを大きくする
+                    .padding() // テキスト周りにパディングを追加
+            }
+            .onAppear {
+                requestHealthKitAuthorization()
+            }
+            .onReceive(timer) { _ in
+                steps = Int.random(in: 0...4) // 0から10000の間でランダムな値を設定
                 sendDataToServer(steps: steps)
             }
         }
-    }
+
 
     func requestHealthKitAuthorization() {
         let stepType = HKObjectType.quantityType(forIdentifier: .stepCount)!
@@ -53,12 +54,13 @@ struct ContentView: View {
     }
 
     func sendDataToServer(steps: Int) {
-        let url = URL(string: "http://0.0.0.0:8000/receive_data")!
+        let url = URL(string: "http://0.0.0.0:8000/step_data")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let parameters: [String: Any] = ["steps": steps]
+        let parameters: [String: Any] = ["steps": steps,
+                                         "userid":"TESTUSER1"]
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
