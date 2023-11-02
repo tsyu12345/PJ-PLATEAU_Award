@@ -41,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0E06BE622AF0ED8700F00001 /* ServerManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerManeger.swift; sourceTree = "<group>"; };
+		0E524D3B2AF3A84600A2B6D3 /* StepPoster Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "StepPoster Watch App.entitlements"; sourceTree = "<group>"; };
 		0E7A91B72AE7C6A5005BDB6B /* StepPoster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepPoster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7A91BD2AE7C6A6005BDB6B /* StepPoster Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StepPoster Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPosterApp.swift; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		0E7A91C12AE7C6A6005BDB6B /* StepPoster Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				0E524D3B2AF3A84600A2B6D3 /* StepPoster Watch App.entitlements */,
 				0E06BE612AF0EC8B00F00001 /* Modules */,
 				0E7A91C22AE7C6A6005BDB6B /* StepPosterApp.swift */,
 				0E7A91C42AE7C6A6005BDB6B /* ContentView.swift */,
@@ -334,6 +336,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "StepPoster Watch App/StepPoster Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StepPoster Watch App/Preview Content\"";
@@ -341,7 +344,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "record health data";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "read health data";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "write health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -365,6 +370,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "StepPoster Watch App/StepPoster Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StepPoster Watch App/Preview Content\"";
@@ -372,7 +378,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = StepPoster;
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "record health data";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "read health data";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "write health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

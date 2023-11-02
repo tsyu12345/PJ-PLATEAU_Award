@@ -18,13 +18,15 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("Steps: \(steps)")
+                .font(.largeTitle)
+                .padding()
         }
         .onAppear {
             requestHealthKitAuthorization()
         }
         .onReceive(timer) { _ in
             fetchStepsData { s in
-                steps = s
+                steps = Int.random(in: 0...3)
                 sendDataToServer(steps: steps)
             }
         }
@@ -54,15 +56,17 @@ struct ContentView: View {
     }
 
     func sendDataToServer(steps: Int) {
-        let url = URL(string: "ws://127.0.0.1:8000/ws_post_step")!
-        
+        let os = "watchos"
+        let userid = "TESTUSER1"
+        let url = URL(string: "ws://127.0.0.1:8000/ws_steps/\(userid)-\(os)")!
+        print(url)
         // WebSocketの接続を確立
         if webSocketTask == nil {
             webSocketTask = URLSession.shared.webSocketTask(with: url)
             webSocketTask?.resume()
         }
         
-        let parameters: [String: Any] = ["steps": steps]
+        let parameters: [String: Any] = ["steps": steps, "user_id":userid]
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
