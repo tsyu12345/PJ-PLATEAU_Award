@@ -3,6 +3,8 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import enum
+import random
+import json 
 
 app = FastAPI()
 origins = [
@@ -25,10 +27,10 @@ class ClientType(enum.Enum):
 class ActivityData(BaseModel):
     user_id: str
     steps: int
-
 class ClientData(BaseModel):
     user_id: str
     client_type: ClientType
+
 class UserDataBase:
 
     __DATA_BASE: dict[str, ActivityData]
@@ -56,33 +58,38 @@ async def receive_user_steps(websocket: WebSocket, user_id: str, client_type: st
     await websocket.accept()
     
     
-    if client_type == ClientType.UNITY:
+    if client_type == ClientType.UNITY.value:
         unity_clients[user_id] = websocket
     elif client_type == ClientType.WatchOS:
         watchos_clients[user_id] = websocket
     
     print(f"connect: {user_id} of {client_type}")
-    
-
     try:
         while True:
-            data = await websocket.receive_json()
-            data = ActivityData(**data)
-            print(f"{data.user_id} now steps : {data.steps}")
-            data_base.renew(data)
-            #todo:現在の歩数をUnity Clientに送信する
-            send_data_to_unity_client(user_id, data_base.get_user_data(user_id))
-            
+            if(client_type == ClientType.WatchOS.value):
+                data = await websocket.receive_json()
+                data = ActivityData(**data)
+                print(f"{data.user_id} now steps : {data.steps}")
+                data_base.renew(data)
+                #todo:現在の歩数をUnity Clientに送信する
+            #print(f"unity_clients : {unity_clients}")
+            await send_data_to_unity_client(user_id, data_base.get_user_data(user_id))
     except WebSocketDisconnect:
-        pass
         del unity_clients[user_id]
         del watchos_clients[user_id]
+        websocket.close()
 
 async def send_data_to_unity_client(client_id: int, data: ActivityData):
     client = unity_clients.get(client_id)
+    #print(f'client : {client}')
     if client:
+        #NOTE:テスト用に乱数を送信
+        data = ActivityData(user_id=client_id, steps=random.randint(0, 3))
         print(f'send data to unity client : {client_id}')
-        await client.send_text(data)
+        #JSON文字列に変換して送信
+        data = json.dumps(data.model_dump_json())
+        print(f'data : {data}')
+        await client.send_json(data)
 
 
 
