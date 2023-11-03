@@ -24,6 +24,7 @@ app.add_middleware(
 class ClientType(enum.Enum):
     UNITY = "unity"
     WatchOS = "watchos"
+
 class ActivityData(BaseModel):
     user_id: str
     steps: int
@@ -83,13 +84,13 @@ async def send_data_to_unity_client(client_id: int, data: ActivityData):
     client = unity_clients.get(client_id)
     #print(f'client : {client}')
     if client:
-        #NOTE:テスト用に乱数を送信
-        data = ActivityData(user_id=client_id, steps=random.randint(0, 3))
+        ##NOTE:テスト用に乱数を送信
+        #data = ActivityData(user_id=client_id, steps=random.randint(0, 1))
         print(f'send data to unity client : {client_id}')
         #JSON文字列に変換して送信
-        data = json.dumps(data.model_dump_json())
+        data = data.model_dump_json()
         print(f'data : {data}')
-        await client.send_json(data)
+        await client.send_json(data, mode="text")
 
 
 
