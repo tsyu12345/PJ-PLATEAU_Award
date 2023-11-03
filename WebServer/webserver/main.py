@@ -41,7 +41,10 @@ class UserDataBase:
 
     
     def renew(self, data: ActivityData):
-        self.__DATA_BASE[data.user_id] = data.steps
+        self.__DATA_BASE[data.user_id] = ActivityData(
+            user_id=data.user_id,
+            steps=data.steps
+        )
 
     def get_user_data(self, userid: str):
         try:
@@ -61,7 +64,7 @@ async def receive_user_steps(websocket: WebSocket, user_id: str, client_type: st
     
     if client_type == ClientType.UNITY.value:
         unity_clients[user_id] = websocket
-    elif client_type == ClientType.WatchOS:
+    elif client_type == ClientType.WatchOS.value:
         watchos_clients[user_id] = websocket
     
     print(f"connect: {user_id} of {client_type}")
@@ -72,13 +75,13 @@ async def receive_user_steps(websocket: WebSocket, user_id: str, client_type: st
                 data = ActivityData(**data)
                 print(f"{data.user_id} now steps : {data.steps}")
                 data_base.renew(data)
-                #todo:現在の歩数をUnity Clientに送信する
-            #print(f"unity_clients : {unity_clients}")
-            await send_data_to_unity_client(user_id, data_base.get_user_data(user_id))
+                await send_data_to_unity_client(user_id, data_base.get_user_data(user_id))
+            elif(client_type == ClientType.UNITY.value):
+                data = await websocket.receive_json()
+                print(f"unity client data : {data}")
+                
     except WebSocketDisconnect:
-        del unity_clients[user_id]
-        del watchos_clients[user_id]
-        websocket.close()
+        pass
 
 async def send_data_to_unity_client(client_id: int, data: ActivityData):
     client = unity_clients.get(client_id)

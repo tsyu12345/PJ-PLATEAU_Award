@@ -53,10 +53,11 @@ cd WebServer
 ```
 2. 以下のコマンドを実行し、`FastAPI`サーバを起動します。
 ```bash
-python ./webserver/main.py
+uvicorn webserver.main:app --reload
 ```
 以下のような表示がでれば完了です。
-![Alt text](%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A.jpg)
+
+![Alt text](FastAPI-demo.jpg)
 
 ### 2. 【AppleWatch】WatchApp側シミュレータの起動
 1. Xcodeで以下のプロジェクトを読み込みます。
@@ -64,7 +65,7 @@ python ./webserver/main.py
 ./StepPoster/StepPoster.xcodeproj
 ```
 2. 起動後、下記画像の赤丸部分をクリックし、アプリケーションのビルドと実行を行います。
-![Alt text](xcode_demo.jpg)
+![Alt text](xcode-demo.jpg)
 
 ###  3. 【Unity側】クライアントの実行
 1. Unity Hubより以下のプロジェクトを読み込んでください。

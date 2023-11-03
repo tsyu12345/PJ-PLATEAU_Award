@@ -39,6 +39,10 @@ public class Client : MonoBehaviour
 
         ws.OnOpen += (sender, e) => {
             Debug.Log("WebSocket Open");
+            //JSON文字列を作成
+            string json = "{\"user_id\": \"" + UserID + "\", \"client_type\": \"" + ClientType + "\"}";
+            Debug.Log("Send Data: " + json);
+            ws.Send(json);
         };
 
         ws.OnMessage += (sender, e) => {
@@ -87,6 +91,7 @@ public class Client : MonoBehaviour
         }
     }
 
+
     // ゲーム終了時に呼び出されるメソッド
     void OnApplicationQuit() {
         ws.Close();
@@ -100,7 +105,7 @@ public class Client : MonoBehaviour
         //オブジェクトを歩数分だけZ軸方向に移動させる
         //現在の位置＋歩数分だけ移動させる
         Vector3 pos = transform.position;
-        pos.z += steps * 0.1f;
+        pos.z += steps;
         transform.position = pos;
     }
 }

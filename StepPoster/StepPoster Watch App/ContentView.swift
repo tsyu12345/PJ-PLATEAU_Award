@@ -23,6 +23,7 @@ struct ContentView: View {
         }
         .onAppear {
             requestHealthKitAuthorization()
+            establishWebSocketConnection()
         }
         .onReceive(timer) { _ in
             fetchStepsData { s in
@@ -55,22 +56,38 @@ struct ContentView: View {
         healthStore.execute(stepsQuery)
     }
 
-    func sendDataToServer(steps: Int) {
+    func establishWebSocketConnection() {
         let os = "watchos"
         let userid = "TESTUSER1"
         let url = URL(string: "ws://127.0.0.1:8000/ws_steps/\(userid)-\(os)")!
-        print(url)
-        // WebSocketの接続を確立
         if webSocketTask == nil {
             webSocketTask = URLSession.shared.webSocketTask(with: url)
             webSocketTask?.resume()
+            monitorWebSocketConnection()
         }
-        
+    }
+
+    func monitorWebSocketConnection() {
+        webSocketTask?.receive { result in
+            switch result {
+            case .failure(let error):
+                print("WebSocket connection error: \(error)")
+                // Reconnect after a delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.establishWebSocketConnection()
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    func sendDataToServer(steps: Int) {
+        let userid = "TESTUSER1"
         let parameters: [String: Any] = ["steps": steps, "user_id":userid]
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                // データをWebSocketを使用して送信
                 webSocketTask?.send(.string(jsonString)) { error in
                     if let error = error {
                         print("Error sending data: \(error)")
@@ -82,7 +99,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
