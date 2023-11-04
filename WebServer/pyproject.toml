@@ -10,6 +10,7 @@ python = "^3.11"
 fastapi = "^0.104.0"
 uvicorn = "^0.23.2"
 poethepoet = "^0.24.1"
+websockets = "^12.0"
 
 
 [build-system]
@@ -18,4 +19,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
 hoge.shell = "echo hoge"
-start.shell = "python webserver/main.py"
+start.shell = "uvicorn webserver.main:app --reload"

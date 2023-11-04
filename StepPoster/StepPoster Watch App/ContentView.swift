@@ -9,6 +9,7 @@ import SwiftUI
 import HealthKit
 
 let healthStore = HKHealthStore()
+var webSocketTask: URLSessionWebSocketTask? = nil
 
 struct ContentView: View {
     @State private var steps: Int = 0
@@ -17,13 +18,16 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("Steps: \(steps)")
+                .font(.largeTitle)
+                .padding()
         }
         .onAppear {
             requestHealthKitAuthorization()
+            establishWebSocketConnection()
         }
         .onReceive(timer) { _ in
             fetchStepsData { s in
-                steps = s
+                steps = Int.random(in: 0...3)
                 sendDataToServer(steps: steps)
             }
         }
@@ -52,34 +56,49 @@ struct ContentView: View {
         healthStore.execute(stepsQuery)
     }
 
+    func establishWebSocketConnection() {
+        let os = "watchos"
+        let userid = "TESTUSER1"
+        let url = URL(string: "ws://127.0.0.1:8000/ws_steps/\(userid)-\(os)")!
+        if webSocketTask == nil {
+            webSocketTask = URLSession.shared.webSocketTask(with: url)
+            webSocketTask?.resume()
+            monitorWebSocketConnection()
+        }
+    }
+
+    func monitorWebSocketConnection() {
+        webSocketTask?.receive { result in
+            switch result {
+            case .failure(let error):
+                print("WebSocket connection error: \(error)")
+                // Reconnect after a delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.establishWebSocketConnection()
+                }
+            default:
+                break
+            }
+        }
+    }
+
     func sendDataToServer(steps: Int) {
-        let url = URL(string: "http://0.0.0.0:8000/receive_data")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let parameters: [String: Any] = ["steps": steps]
-        
+        let userid = "TESTUSER1"
+        let parameters: [String: Any] = ["steps": steps, "user_id":userid]
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
-            print("Connecting to your server \(url)")
-            print("send data is :\(parameters)")
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let error = error {
-                    print("Error sending data: \(error)")
+            let jsonData = try JSONSerialization.data(withJSONObject: parameters)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                webSocketTask?.send(.string(jsonString)) { error in
+                    if let error = error {
+                        print("Error sending data: \(error)")
+                    }
                 }
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                    print("Server responded with status code: \(httpResponse.statusCode)")
-                }
-            }.resume()
+            }
         } catch {
             print("Error serializing JSON: \(error)")
         }
     }
-
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
