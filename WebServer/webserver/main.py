@@ -1,46 +1,55 @@
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
-from modules.user_data_store import UserDataStore
-from Interfaces.activity_interface import ActivityData
+from .modules.user_data_store import UserDataStore
+from .modules.device_motion_store import DeviceMortion
+from .Interfaces.activity_interface import ActivityData
+from .Interfaces.client_data_interface import UserData
+from .Interfaces.server_config import AppConfig
 
 app = FastAPI()
 
-#TODO:以下の設定項目を外部ファイルから編集できる様にする
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://127.0.0.1:8000",
-]
-
+# 設定ファイルを読み込む
+config = AppConfig.from_json("./WebServer/server_config.json")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=config.cors.origins,
+    allow_credentials=config.cors.allow_credentials,
+    allow_methods=config.cors.allow_methods,
+    allow_headers=config.cors.allow_headers,
 )
-#####
 
 
-store = UserDataStore()
+store = UserDataStore() #全ユーザーの位置情報を保持する
 
-@app.websocket("/strength/post/{user_id}")
-async def receive_user_data(websocket: WebSocket, user_id: str, data: ActivityData):
+@app.websocket("/store/strength/{user_id}")
+async def receive_user_data(websocket: WebSocket, user_id: str):
     """ユーザーデバイス入力を受け取る"""
     await websocket.accept()
-    print(f'accept websocket : {websocket}') 
-    store.initialize(user_id)
-
+    print(f'[/store/strength/{user_id}] accept : {websocket}')
+    device = DeviceMortion(user_id)
     try:
         while True:
             data: ActivityData = await websocket.receive_json()
             print(f"receive data : {data}")
-            store.renew(data)
-            print(f"store data : {store.get_user_pos(user_id)}")
+            device.renew(data.strength)
+            print(f"mortion strength : {device.get_strength()}")
+    except WebSocketDisconnect:
+        pass
 
+@app.websocket("/store/position/{user_id}")
+async def receive_client_data(websocket: WebSocket, user_id: str):
+    """Unityクライアントからのデータを受け取る"""
+    await websocket.accept()
+    print(f'[/store/position/{user_id}] accept : {websocket}') 
+    store.initialize(user_id)
+    try:
+        while True:
+            data: UserData = await websocket.receive_json()
+            print(f"receive data : {data}")
+            store.renew(data)
+            print(f"mortion strength : {store.get_user_pos(user_id)}")
     except WebSocketDisconnect:
         pass
 
@@ -62,4 +71,4 @@ async def send_data_to_unity_client(client_id: int, data: ActivityData):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=config.server.host, port=config.server.port)
