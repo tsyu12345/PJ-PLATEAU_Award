@@ -25,10 +25,10 @@ store = UserDataStore() #全ユーザーの位置情報を保持するインメ�
 
 @app.websocket("/store/strength/{user_id}")
 async def receive_user_data(websocket: WebSocket, user_id: str):
-    """ユーザーデバイス入力を受け取る"""
+    """【Device input】ユーザーデバイス入力を受け取る"""
     await websocket.accept()
     print(f'[/store/strength/{user_id}] accept : {websocket}')
-    device = DeviceMortion(user_id)
+    device = DeviceMortion(user_id) #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
     try:
         while True:
             input: dict = await websocket.receive_json(mode="text")
@@ -39,9 +39,10 @@ async def receive_user_data(websocket: WebSocket, user_id: str):
     except WebSocketDisconnect:
         pass
 
+
 @app.websocket("/store/position/{user_id}")
 async def receive_client_data(websocket: WebSocket, user_id: str):
-    """Unityクライアントからのデータを受け取る"""
+    """NOTE:【開発中】Unityクライアントからのデータを受け取る"""
     await websocket.accept()
     print(f'[/store/position/{user_id}] accept : {websocket}') 
     store.initialize(user_id)

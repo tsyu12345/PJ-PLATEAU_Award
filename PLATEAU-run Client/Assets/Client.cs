@@ -11,9 +11,7 @@ public class StepsData {
     public int steps { get; set; }
 }
 
-/***
-* Websoketを使ってAppleWatchと通信するやつ
-*/
+
 public class Client : MonoBehaviour
 {
 
