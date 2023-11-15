@@ -1,10 +1,3 @@
-//
-//  MotionDetector.swift
-//  MotionInputer-iOS
-//
-//  Created by 高林秀 on 2023/11/14.
-//
-
 import Foundation
 import CoreMotion
 
@@ -18,6 +11,11 @@ class MotionDetector {
     }
 
     func startMonitoring() {
+        #if targetEnvironment(simulator)
+        // シミュレーターの場合、乱数を使用してモーションデータをシミュレート
+        simulateMotionData()
+        #else
+        // 実際のデバイスでの処理
         guard motionManager.isAccelerometerAvailable && motionManager.isGyroAvailable else {
             print("Accelerometer and/or Gyroscope not available.")
             return
@@ -28,9 +26,20 @@ class MotionDetector {
             let strength = sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z)
             self?.motionDetected?(strength)
         }
+        #endif
     }
 
     func stopMonitoring() {
         motionManager.stopAccelerometerUpdates()
     }
+
+    #if targetEnvironment(simulator)
+    // シミュレーター用のモーションデータシミュレーション
+    private func simulateMotionData() {
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            let simulatedStrength = Double.random(in: 0...1) // 乱数を生成
+            self?.motionDetected?(simulatedStrength)
+        }
+    }
+    #endif
 }

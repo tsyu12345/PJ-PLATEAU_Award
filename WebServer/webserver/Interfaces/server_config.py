@@ -1,5 +1,6 @@
 from pydantic import BaseModel, HttpUrl
 from typing import List
+import json
 
 class ServerConfig(BaseModel):
     host: str
@@ -17,6 +18,6 @@ class AppConfig(BaseModel):
 
     @classmethod
     def from_json(cls, file_path: str):
-        import json
         with open(file_path, 'r') as file:
-            return cls(**json.load(file))
+            config = json.load(file)
+            return cls(**config)

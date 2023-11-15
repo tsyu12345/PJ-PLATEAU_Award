@@ -11,7 +11,7 @@ from .Interfaces.server_config import AppConfig
 app = FastAPI()
 
 # 設定ファイルを読み込む
-config = AppConfig.from_json("./WebServer/server_config.json")
+config = AppConfig.from_json("./server_config.json")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.cors.origins,
@@ -21,7 +21,7 @@ app.add_middleware(
 )
 
 
-store = UserDataStore() #全ユーザーの位置情報を保持する
+store = UserDataStore() #全ユーザーの位置情報を保持するインメモリデータベース
 
 @app.websocket("/store/strength/{user_id}")
 async def receive_user_data(websocket: WebSocket, user_id: str):
@@ -31,7 +31,8 @@ async def receive_user_data(websocket: WebSocket, user_id: str):
     device = DeviceMortion(user_id)
     try:
         while True:
-            data: ActivityData = await websocket.receive_json()
+            input: dict = await websocket.receive_json(mode="text")
+            data = ActivityData(**input)
             print(f"receive data : {data}")
             device.renew(data.strength)
             print(f"mortion strength : {device.get_strength()}")
