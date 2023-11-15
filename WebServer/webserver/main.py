@@ -36,40 +36,18 @@ async def receive_user_data(websocket: WebSocket, user_id: str):
             print(f"receive data : {data}")
             device.renew(data.strength)
             print(f"mortion strength : {device.get_strength()}")
+            await send_data_to_Unity(websocket, data)
     except WebSocketDisconnect:
         pass
 
 
-@app.websocket("/store/position/{user_id}")
-async def receive_client_data(websocket: WebSocket, user_id: str):
-    """NOTE:【開発中】Unityクライアントからのデータを受け取る"""
-    await websocket.accept()
-    print(f'[/store/position/{user_id}] accept : {websocket}') 
-    store.initialize(user_id)
-    try:
-        while True:
-            data: UserData = await websocket.receive_json()
-            print(f"receive data : {data}")
-            store.renew(data)
-            print(f"mortion strength : {store.get_user_pos(user_id)}")
-    except WebSocketDisconnect:
-        pass
-
-
-
-"""
-async def send_data_to_unity_client(client_id: int, data: ActivityData):
-    client = unity_clients.get(client_id)
-    #print(f'client : {client}')
-    if client:
-        ##NOTE:テスト用に乱数を送信
-        #data = ActivityData(user_id=client_id, steps=random.randint(0, 1))
-        print(f'send data to unity client : {client_id}')
-        #JSON文字列に変換して送信
-        data = data.model_dump_json()
-        print(f'data : {data}')
-        await client.send_json(data, mode="text")
-"""
+async def send_data_to_Unity(client: WebSocket, data: ActivityData):
+    """【Unity output】Unityクライアントにデータを送信する"""
+    print(f'send data to unity client : {data.user_id}')
+    #JSON文字列に変換して送信
+    data = data.model_dump_json()
+    print(f'data : {data}')
+    await client.send_json(data, mode="text")
 
 
 if __name__ == "__main__":
