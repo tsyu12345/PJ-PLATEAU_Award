@@ -5,7 +5,7 @@ using UnityEngine;
 using WebSocketSharp;
 using Newtonsoft.Json;
 
-[CreateAssetMenu(menuName = "PJ-PLATEAU_Award/ServerManeger")]
+
 /// <summary>
 /// デバイスからモーション入力を受け取るためのマネージャークラス
 /// </summary>
@@ -22,17 +22,14 @@ public class ServerManeger : MonoBehaviour {
 
     void Start() {
 
-        var uri = ServerAdress + $"/ws_steps/{UserID}-{ClientType}";
-        Debug.Log("Start Request " + uri);
-        ws = new WebSocket(uri);
         
         ws.OnOpen += (sender, ev) => {
 
-        }
+        };
 
         ws.OnMessage += (sender, ev) => {
 
-        }
+        };
 
         ws.OnError += (sender, e) => {
             Debug.Log("WebSocket Error Message: " + e.Message);
@@ -57,11 +54,13 @@ public class ServerManeger : MonoBehaviour {
         ws.Close();
     }
 
-    public void GetData(e) {
+    /**
+    public void GetData() {
         string cleanedData = e.Data.Trim('"');
         cleanedData = cleanedData.Replace("\\\"", "\"");
         Debug.Log("Cleaned Data: " + cleanedData);
         StepsData data = JsonConvert.DeserializeObject<StepsData>(cleanedData);
     }
+    */
 
 }

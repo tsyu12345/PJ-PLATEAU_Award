@@ -1,6 +1,6 @@
-# PJ-PLATEAU_Award WebSoket版デモ
+# PLATEAU Run デモ版
 
-## 環境要件
+# 環境要件
 本プロジェクトは以下の言語、パッケージを必要とし、下記記載のOSで動作を保証します。
 * マシン/OS : Intel Mac / MacOS Ventura 13.3.1
 * 言語環境
@@ -8,10 +8,10 @@
     * Unity 2021.3.25f1
     * Xcode Ver 14.3
 
-## 環境構築編
+# 環境構築編
 本プロジェクトでは、以下の3つの環境で動作するため、clone or ダウンロード後は以下の手順で、それぞれ環境構築が必要です。
- 
-### 【Webサーバ】
+
+## 【Webサーバ】
  本デモのWebサーバは`FastAPI`で動作します.
  通常の`pip`による環境構築は以下の手順です。
 ### 1. 仮想環境の用意
@@ -38,15 +38,29 @@
 pip install -r requirements.txt
 ```
 
-### 【Xcode側】
+## 【Xcode側】
 XcodeがインストールされているMacであればXcode側で追加のインストール等は必要ありません。
 
-### 【Unity側】
-UnityがインストールされているMacであればUnity側で追加のインストール等は必要ありません。
+## 【Unity側】
+本プロジェクトではPLATEAUの大容量ファイルを扱います。クローン後は以下の共有フォルダから`LFSファイル一覧`にあるZipファイルをダウンロードして、指定の展開先に展開する必要があります。
 
-## デモ起動編
+### Zipファイル格納先
+https://drive.google.com/open?id=1eyTGow0vdNQ8ac8KhpnXQFOiisHOQgDK&usp=drive_fs
 
-### 1.【Webサーバ】Webサーバを起動する。
+### LFS ファイル一覧 (最終更新日: 2023/11/16)
+* StreamingAssets.zip
+    * PLATEAUマップのテクスチャが含まれています。
+    * 展開先 : `"./PLATEAU-run Client/Assets/StreamingAssets"`
+
+* Scenes.zip
+    * PLATEAUをUnityで展開した際のシーン情報です。
+    * 展開先 : `"./PLATEAU-run Client/Assets/Scenes"`
+
+
+
+# デモ起動編
+
+## 1.【Webサーバ】Webサーバを起動する。
 1. プロジェクトのルートから、以下のコマンドで`WebServer`ディレクトリに遷移します。
 ```bash
 cd WebServer
@@ -59,7 +73,7 @@ uvicorn webserver.main:app --reload
 
 ![Alt text](FastAPI-demo.jpg)
 
-### 2. 【AppleWatch】WatchApp側シミュレータの起動
+## 2. 【AppleWatch】WatchApp側シミュレータの起動
 1. Xcodeで以下のプロジェクトを読み込みます。
 ```
 ./StepPoster/StepPoster.xcodeproj
@@ -67,7 +81,7 @@ uvicorn webserver.main:app --reload
 2. 起動後、下記画像の赤丸部分をクリックし、アプリケーションのビルドと実行を行います。
 ![Alt text](xcode-demo.jpg)
 
-###  3. 【Unity側】クライアントの実行
+##  3. 【Unity側】クライアントの実行
 1. Unity Hubより以下のプロジェクトを読み込んでください。
 ```
 ./PLATEAU-run Client
