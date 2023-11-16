@@ -27,7 +27,7 @@ struct ContentView: View {
         motionDetector.motionDetected = { strength in
             DispatchQueue.main.async {
                 self.motionStrength = strength
-                self.pushDataForServer(userId: self.userId, strength: Float(strength))
+                self.pushDataForServer(userId: self.userId, strength: Float(strength), clientType: "iOS")
             }
         }
         motionDetector.startMonitoring()
@@ -38,9 +38,9 @@ struct ContentView: View {
         webSocketManager.disconnect()
     }
     
-    private func pushDataForServer(userId: String, strength: Float) {
+    private func pushDataForServer(userId: String, strength: Float, clientType: String) {
         let endpoint = "/store/strength/\(userId)"
-        let data: [String: Any] = ["user_id": userId, "strength": strength]
+        let data: [String: Any] = ["user_id": userId, "strength": strength, "clientType": clientType]
         webSocketManager.request(endpoint: endpoint, data: data)
     }
 }

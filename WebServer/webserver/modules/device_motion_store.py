@@ -1,13 +1,15 @@
-class DeviceMortion:
+from ..Interfaces.activity_interface import ActivityData
+class DeviceMotion:
     """
-    各ユーザー毎に、デバイスの動きを記録するクラス
+    各ユーザー毎(ローカル端末毎)に、デバイスの動きを記録するクラス
     """
-    def __init__(self, user_id: str):
-        self.__user_id = user_id
-        self.__strength = 0.0
+
+    def __init__(self):
+        self.__DATA_BASE: dict[str, float] = {}
     
-    def renew(self, strength: float):
-        self.__strength = strength
+    def renew(self, data: ActivityData):
+        """デバイスの動きを更新する"""
+        self.__DATA_BASE[data.user_id] = data.strength
     
-    def get_strength(self):
-        return self.__strength
+    def get_strength(self, user_id):
+        return self.__DATA_BASE[user_id]

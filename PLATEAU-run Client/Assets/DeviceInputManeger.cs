@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 /// <summary>
 /// デバイスからモーション入力を受け取るためのマネージャークラス
 /// </summary>
-public class ServerManeger : MonoBehaviour {
+public class DeviceInputManeger : MonoBehaviour {
     
     
     [Header("サーバー設定")]
-    public string ServerAdress = "ws://ws://127.0.0.1:8000"; //いったんローカルホストで
+    public string ServerAdress = "ws://127.0.0.1:8000"; //いったんローカルホストで
 
     public string userId = "TESTUSER1";
 
@@ -22,13 +22,20 @@ public class ServerManeger : MonoBehaviour {
 
     void Start() {
 
-        
+        var endpoint = $"/get/strength/{userId}";
+        var uri = ServerAdress + $"{endpoint}";
+        Debug.Log("Start Request " + uri);
+        ws = new WebSocket(uri);
+        ws.Connect();
+
         ws.OnOpen += (sender, ev) => {
 
         };
 
         ws.OnMessage += (sender, ev) => {
-
+            string cleanedData = ev.Data.Trim('"');
+            cleanedData = cleanedData.Replace("\\\"", "\"");
+            Debug.Log("Cleaned Data: " + cleanedData);
         };
 
         ws.OnError += (sender, e) => {
@@ -40,9 +47,8 @@ public class ServerManeger : MonoBehaviour {
             Debug.Log("WebSocket Close");
             ws.Close();
         };
-        ws.Connect();
-    }
 
+    }
 
     public void Connect(string endpoint) {
         var uri = ServerAdress + $"{endpoint}";
@@ -50,17 +56,9 @@ public class ServerManeger : MonoBehaviour {
         ws = new WebSocket(uri);
     }
 
-    public void Disconnet() {
+    void OnApplicationQuit() {
         ws.Close();
+        Debug.Log("WebSocket Connection Closed");
     }
-
-    /**
-    public void GetData() {
-        string cleanedData = e.Data.Trim('"');
-        cleanedData = cleanedData.Replace("\\\"", "\"");
-        Debug.Log("Cleaned Data: " + cleanedData);
-        StepsData data = JsonConvert.DeserializeObject<StepsData>(cleanedData);
-    }
-    */
 
 }

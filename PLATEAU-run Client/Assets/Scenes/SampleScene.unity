@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21869,7 +21869,7 @@ GameObject:
   - component: {fileID: 1778607775}
   - component: {fileID: 1778607774}
   - component: {fileID: 1778607773}
-  - component: {fileID: 1778607772}
+  - component: {fileID: 1778607777}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -21877,21 +21877,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1778607772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778607771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb48a359a96f7f745bb10c04359349b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerAdress: ws://127.0.0.1:8000
-  UserID: TESTUSER1
-  ClientType: unity
 --- !u!136 &1778607773
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -21971,6 +21956,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1778607777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778607771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e6189e600bc4aacbb8206f9187958d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerAdress: ws://127.0.0.1:8000
+  userId: TESTUSER1
 --- !u!1001 &1790362884
 PrefabInstance:
   m_ObjectHideFlags: 0
