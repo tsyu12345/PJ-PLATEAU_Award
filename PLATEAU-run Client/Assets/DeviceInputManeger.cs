@@ -13,16 +13,19 @@ public class DeviceInputManeger : MonoBehaviour {
     
     
     [Header("サーバー設定")]
-    public string ServerAdress = "ws://127.0.0.1:8000"; //いったんローカルホストで
-
+    public string ServerAdress = "ws://127.0.0.1:8000"; 
     public string userId = "TESTUSER1";
 
+    public string clientType = "Unity"
+
     private readonly Queue<Action> _mainThreadActions = new Queue<Action>();
+    public delegate void CleanedDataHandler(string data);
+    public event CleanedDataHandler OnCleanedDataReceived;
     private WebSocket ws;
 
     void Start() {
 
-        var endpoint = $"/get/strength/{userId}";
+        var endpoint = $"/store/strength/{userId}-{clientType}";
         var uri = ServerAdress + $"{endpoint}";
         Debug.Log("Start Request " + uri);
         ws = new WebSocket(uri);
@@ -36,6 +39,7 @@ public class DeviceInputManeger : MonoBehaviour {
             string cleanedData = ev.Data.Trim('"');
             cleanedData = cleanedData.Replace("\\\"", "\"");
             Debug.Log("Cleaned Data: " + cleanedData);
+            OnCleanedDataReceived?.Invoke(cleanedData);
         };
 
         ws.OnError += (sender, e) => {

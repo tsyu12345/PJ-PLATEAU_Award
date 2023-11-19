@@ -7,6 +7,7 @@ from .modules.device_motion_store import DeviceMotion
 from .Interfaces.activity_interface import ActivityData
 from .Interfaces.client_data_interface import UserData
 from .Interfaces.server_config import AppConfig
+from .Interfaces.client_types import ClientType
 
 app = FastAPI()
 
@@ -22,34 +23,22 @@ app.add_middleware(
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
 
-@app.websocket("/store/strength/{user_id}")
-async def receive_user_data(websocket: WebSocket, user_id: str):
+@app.websocket("/store/strength/{user_id}-{client_type}")
+async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
     """【Device input】ユーザーデバイス入力を受け取る"""
     await websocket.accept()
     print(f'[/store/strength/{user_id}] accept : {websocket}')
     try:
         while True:
-            input: dict = await websocket.receive_json(mode="text")
-            data = ActivityData(**input)
-            print(f"receive data : {data}")
-            device.renew(data)
-            print(f"mortion strength : {data.strength}")
+            if client_type == ClientType.UNITY.value:
+                data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
+                await send_data_to_Unity(websocket, data)
+            else:
+                input: dict = await websocket.receive_json(mode="text")
+                data = ActivityData(**input)
+                device.renew(data)
     except WebSocketDisconnect:
         pass
-
-
-@app.websocket("/get/strength/{user_id}")
-async def get_user_input(websocket: WebSocket, user_id: str):
-    """【Unity output】ユーザーのモーションデータを返す"""
-    await websocket.accept()
-    print(f'[/get/strength/{user_id}] accept : {websocket}')
-    try:
-        while True:
-            data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
-            await send_data_to_Unity(websocket, data)
-    except WebSocketDisconnect:
-        pass
-
 
 async def send_data_to_Unity(client: WebSocket, data: ActivityData):
     """【Unity output】Unityクライアントにデータを送信する"""
