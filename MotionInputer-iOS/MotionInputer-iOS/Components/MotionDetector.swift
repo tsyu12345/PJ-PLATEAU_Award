@@ -37,7 +37,7 @@ class MotionDetector {
     // シミュレーター用のモーションデータシミュレーション
     private func simulateMotionData() {
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            let simulatedStrength = Double.random(in: 0...1) // 乱数を生成
+            let simulatedStrength = Double.random(in: 0...3) // 乱数を生成
             self?.motionDetected?(simulatedStrength)
         }
     }

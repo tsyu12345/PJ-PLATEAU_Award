@@ -7,4 +7,4 @@ from .client_types import ClientType
 class ActivityData(BaseModel):
     user_id: str
     strength: float
-    client_type: ClientType
+    client_type: ClientType | None = None
