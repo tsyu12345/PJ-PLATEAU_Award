@@ -1,12 +1,12 @@
 using UnityEngine;
+using DeviceManager;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
-	{
+	public class StarterAssetsInputs : MonoBehaviour {
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
@@ -20,9 +20,17 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+		private DeviceInputManager deviceInputManager;
+
+
+		void Start() {
+			GameObject deviceInputManagerObject = new GameObject("DeviceInputManager");
+        	deviceInputManager = deviceInputManagerObject.AddComponent<DeviceInputManager>();
+			//deviceInputManager.OnCleanedDataReceived += OnCleanedDataReceived;
+		}
+
 #if ENABLE_INPUT_SYSTEM
-		public void OnMove(InputValue value)
-		{
+		public void OnMove(InputValue value) {
 			MoveInput(value.Get<Vector2>());
 		}
 
@@ -46,8 +54,9 @@ namespace StarterAssets
 #endif
 
 
-		public void MoveInput(Vector2 newMoveDirection)
-		{
+		public void MoveInput(Vector2 newMoveDirection) {
+			Debug.Log("MoveInput");
+			Debug.Log(newMoveDirection);
 			move = newMoveDirection;
 		}
 

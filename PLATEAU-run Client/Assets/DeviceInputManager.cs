@@ -6,10 +6,11 @@ using WebSocketSharp;
 using Newtonsoft.Json;
 
 
-/// <summary>
+namespace DeviceManager {
+    /// <summary>
 /// デバイスからモーション入力を受け取るためのマネージャークラス
 /// </summary>
-public class DeviceInputManeger : MonoBehaviour {
+public class DeviceInputManager : MonoBehaviour {
     
     
     [Header("サーバー設定")]
@@ -66,3 +67,5 @@ public class DeviceInputManeger : MonoBehaviour {
     }
 
 }
+}
+

@@ -1032,7 +1032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3893294197879345259}
   - component: {fileID: 6982812146204527121}
-  - component: {fileID: 6394402786406250801}
+  - component: {fileID: 3133138911947791464}
   - component: {fileID: 4416926081852918491}
   - component: {fileID: 4416926081852918490}
   - component: {fileID: 5885216827943657505}
@@ -1084,7 +1084,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6394402786406250801
+--- !u!114 &3133138911947791464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1093,12 +1093,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4416926081852918481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb48a359a96f7f745bb10c04359349b3, type: 3}
+  m_Script: {fileID: 11500000, guid: bb75f773d774b46c0aec98dc6b3d3f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerAdress: ws://127.0.0.1:8000
-  UserID: TESTUSER1
-  ClientType: unity
+  userId: TESTUSER1
+  clientType: Unity
 --- !u!143 &4416926081852918491
 CharacterController:
   m_ObjectHideFlags: 0
