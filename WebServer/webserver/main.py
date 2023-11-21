@@ -2,10 +2,8 @@ import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from .modules.user_data_store import UserDataStore
 from .modules.device_motion_store import DeviceMotion
 from .Interfaces.activity_interface import ActivityData
-from .Interfaces.client_data_interface import UserData
 from .Interfaces.server_config import AppConfig
 from .Interfaces.client_types import ClientType
 

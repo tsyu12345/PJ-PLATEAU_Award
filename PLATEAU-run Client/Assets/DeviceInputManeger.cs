@@ -16,7 +16,7 @@ public class DeviceInputManeger : MonoBehaviour {
     public string ServerAdress = "ws://127.0.0.1:8000"; 
     public string userId = "TESTUSER1";
 
-    public string clientType = "Unity"
+    public string clientType = "Unity";
 
     private readonly Queue<Action> _mainThreadActions = new Queue<Action>();
     public delegate void CleanedDataHandler(string data);
