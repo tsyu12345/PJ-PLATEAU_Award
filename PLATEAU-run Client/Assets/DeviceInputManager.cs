@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using WebSocketSharp;
 using Newtonsoft.Json;
@@ -9,13 +10,13 @@ using Newtonsoft.Json;
 namespace DeviceManager {
 /// <summary>
 /// デバイスからモーション入力を受け取るためのマネージャークラス
-/// TODO:APIサーバーのpublic ipを動的に取得する機能の追加
+/// TODO:リファクタリング
 /// </summary>
 public class DeviceInputManager : MonoBehaviour {
     
     
     [Header("サーバー設定")]
-    public string ServerAdress = "ws://127.0.0.1:8000"; 
+    public string ServerAdressFile = "Assets/temp/ipconfig.txt";
     public string userId = "TESTUSER1";
 
     public string clientType = "Unity";
@@ -26,6 +27,9 @@ public class DeviceInputManager : MonoBehaviour {
     private WebSocket ws;
 
     void Start() {
+
+        var ipconfig = File.ReadAllText(ServerAdressFile);
+        var ServerAdress = "ws://" + ipconfig.Trim();
 
         var endpoint = $"/store/strength/{userId}-{clientType}";
         var uri = ServerAdress + $"{endpoint}";
@@ -38,9 +42,10 @@ public class DeviceInputManager : MonoBehaviour {
         };
 
         ws.OnMessage += (sender, ev) => {
+            //データの整形
             string cleanedData = ev.Data.Trim('"');
             cleanedData = cleanedData.Replace("\\\"", "\"");
-            Debug.Log("Cleaned Data: " + cleanedData);
+            //Debug.Log("Cleaned Data: " + cleanedData);
             OnCleanedDataReceived?.Invoke(cleanedData);
         };
 
@@ -56,11 +61,6 @@ public class DeviceInputManager : MonoBehaviour {
 
     }
 
-    public void Connect(string endpoint) {
-        var uri = ServerAdress + $"{endpoint}";
-        Debug.Log("Start Request " + uri);
-        ws = new WebSocket(uri);
-    }
 
     void OnApplicationQuit() {
         ws.Close();

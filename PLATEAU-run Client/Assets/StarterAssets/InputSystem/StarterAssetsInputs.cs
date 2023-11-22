@@ -30,6 +30,8 @@ namespace StarterAssets
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
+		public float splintStrengthThreshold = 1.5f;
+
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
@@ -43,10 +45,11 @@ namespace StarterAssets
 		public void OnMove(string json) {
 			InputData data = JsonConvert.DeserializeObject<InputData>(json);
 			Vector2 newMoveDirection = new Vector2(0f, -data.strength); //NOTE: -を付けないと逆（後方）になる
-			if(data.strength >= 1.5f) {
+			if(data.strength >= splintStrengthThreshold) {
 				SprintInput(true);
+			} else {
+				SprintInput(false);
 			}
-			//var newMoveDirection = json.Get<Vector2>();
 			MoveInput(newMoveDirection);
 		}
 
