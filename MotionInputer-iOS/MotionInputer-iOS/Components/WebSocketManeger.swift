@@ -1,11 +1,11 @@
 import Foundation
 
-class WebSocketManager {
+class WebSocketManager: ObservableObject {
     private var webSocketTask: URLSessionWebSocketTask?
-    private let baseURL: URL
+    private var baseURL: URL
     private let session: URLSession
 
-    init(baseURL: URL) {
+    init(baseURL: URL = URL(string: "ws://example.com")!) {
         self.baseURL = baseURL
         self.session = URLSession(configuration: .default)
     }
@@ -14,6 +14,10 @@ class WebSocketManager {
         let fullURL = baseURL.appendingPathComponent(endpoint)
         webSocketTask = session.webSocketTask(with: fullURL)
         webSocketTask?.resume()
+    }
+    
+    func setBaseURL(_ url: URL) {
+            self.baseURL = url
     }
 
     func connect(endpoint: String) {

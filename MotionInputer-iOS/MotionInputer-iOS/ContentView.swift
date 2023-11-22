@@ -5,9 +5,12 @@ import CoreMotion
 struct ContentView: View {
     @State private var motionStrength = 0.0
     @State private var isMonitoring = false
-    private var motionDetector = MotionDetector()
-    //TODO:本実装用に設定ファイルから読み込めること
-    private var webSocketManager = WebSocketManager(baseURL: URL(string: "ws://127.0.0.1:8000")!)
+    @State private var ipAddress = "127.0.0.1" // IPアドレスの初期値
+    @State private var previousIPAddresses: [String] = UserDefaults.standard.stringArray(forKey: "previousIPAddresses") ?? []
+    @StateObject private var motionDetector = MotionDetector()
+    @StateObject private var webSocketManager = WebSocketManager()
+
+    
     private let userId = "TESTUSER1" // ここに適切なユーザーIDを設定
 
     var body: some View {
@@ -21,8 +24,26 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .font(.title)
             }
+            
+            // 以前のIPアドレスを選択するためのUI
+            Menu("Select Previous IP") {
+                ForEach(previousIPAddresses, id: \.self) { address in
+                    Button(address) {
+                        ipAddress = address
+                    }
+                }
+            }
+            TextField("Enter Server IP Address", text: $ipAddress)
+                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                 .multilineTextAlignment(.center) // テキストを中央寄せに設定
+                 .padding()
+            
             Button("Start Monitoring") {
                 startMonitoring()
+                if !previousIPAddresses.contains(ipAddress) {
+                    previousIPAddresses.append(ipAddress)
+                    UserDefaults.standard.set(previousIPAddresses, forKey: "previousIPAddresses")
+                }
             }.buttonStyle(.borderedProminent)
             
             Button("Stop Monitoring") {
@@ -35,6 +56,10 @@ struct ContentView: View {
     private func startMonitoring() {
         self.isMonitoring = true
         let clientType = "iOS"
+        // IPアドレスを使用してWebSocketManagerを初期化
+        if let url = URL(string: "ws://\(ipAddress)") {
+            webSocketManager.setBaseURL(url)
+        }
         webSocketManager.connect(endpoint: "/store/strength/\(userId)-\(clientType)")
         motionDetector.motionDetected = { strength in
             guard self.isMonitoring else { return }

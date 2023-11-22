@@ -1,14 +1,17 @@
 import Foundation
 import CoreMotion
 
-class MotionDetector {
+class MotionDetector: ObservableObject {
     private let motionManager = CMMotionManager()
     var motionDetected: ((Double) -> Void)?
+
+    //@Published var someObservableProperty: String = "" // 例として追加
 
     init() {
         motionManager.accelerometerUpdateInterval = 0.1
         motionManager.gyroUpdateInterval = 0.1
     }
+
 
     func startMonitoring() {
         #if targetEnvironment(simulator)
