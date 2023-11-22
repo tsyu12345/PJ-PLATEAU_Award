@@ -1,8 +1,22 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DeviceManager;
+using Newtonsoft.Json;
+
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
+
+
+[Serializable]
+public class InputData {
+    public string user_id;
+    public float strength;
+    public string client_type;
+}
 
 namespace StarterAssets
 {
@@ -21,17 +35,19 @@ namespace StarterAssets
 		public bool cursorInputForLook = true;
 
 		private DeviceInputManager deviceInputManager;
+		private readonly Queue<Action> _mainThreadActions = new Queue<Action>();
 
-
-		void Start() {
-			GameObject deviceInputManagerObject = new GameObject("DeviceInputManager");
-        	deviceInputManager = deviceInputManagerObject.AddComponent<DeviceInputManager>();
-			//deviceInputManager.OnCleanedDataReceived += OnCleanedDataReceived;
-		}
 
 #if ENABLE_INPUT_SYSTEM
-		public void OnMove(InputValue value) {
-			MoveInput(value.Get<Vector2>());
+
+		public void OnMove(string json) {
+			InputData data = JsonConvert.DeserializeObject<InputData>(json);
+			Vector2 newMoveDirection = new Vector2(0f, -data.strength); //NOTE: -を付けないと逆（後方）になる
+			if(data.strength >= 1.5f) {
+				SprintInput(true);
+			}
+			//var newMoveDirection = json.Get<Vector2>();
+			MoveInput(newMoveDirection);
 		}
 
 		public void OnLook(InputValue value)
@@ -47,16 +63,17 @@ namespace StarterAssets
 			JumpInput(value.isPressed);
 		}
 
-		public void OnSprint(InputValue value)
-		{
+		public void OnSprint(InputValue value) {
 			SprintInput(value.isPressed);
 		}
 #endif
 
+		void Start() {
+			deviceInputManager = GetComponent<DeviceInputManager>();
+			deviceInputManager.OnCleanedDataReceived += OnMove; //Move関数を上書きする
+		}
 
 		public void MoveInput(Vector2 newMoveDirection) {
-			Debug.Log("MoveInput");
-			Debug.Log(newMoveDirection);
 			move = newMoveDirection;
 		}
 

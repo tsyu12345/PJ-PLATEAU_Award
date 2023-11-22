@@ -11,6 +11,8 @@ fastapi = "^0.104.0"
 uvicorn = "^0.23.2"
 poethepoet = "^0.24.1"
 websockets = "^12.0"
+ipget = "^0.0.3"
+public-ip = "^0.12"
 
 
 [build-system]
@@ -18,4 +20,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
-start.shell = "uvicorn webserver.main:app --reload"
+dev.shell = "uvicorn webserver.main:app --reload"
+start.shell = "uvicorn webserver.main:app --host=0.0.0.0"

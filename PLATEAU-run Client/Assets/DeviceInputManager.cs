@@ -7,8 +7,9 @@ using Newtonsoft.Json;
 
 
 namespace DeviceManager {
-    /// <summary>
+/// <summary>
 /// デバイスからモーション入力を受け取るためのマネージャークラス
+/// TODO:APIサーバーのpublic ipを動的に取得する機能の追加
 /// </summary>
 public class DeviceInputManager : MonoBehaviour {
     
