@@ -11,6 +11,7 @@ from .modules.device_motion_store import DeviceMotion
 from .modules.ServerApp import AppConfig
 from .Interfaces.activity_interface import ActivityData
 from .Interfaces.client_types import ClientType
+from .Interfaces.utils import PrintColor
 
 
 event_handlers: dict[str, list[Callable]] = {}
@@ -53,6 +54,7 @@ async def deploy_publicIP() -> None:
     #ファイルが存在しない場合は作成される
     with open("../PLATEAU-run Client/Assets/temp/ipconfig.txt", "w") as f:
         addless = f'{IP}:{config.server.port}'
+        print(f"【!Your Server IP address!】{PrintColor.BLUE.value}{IP}:{config.server.port} {PrintColor.RESET.value}")
         f.write(addless)
         
 
@@ -81,7 +83,7 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         while True:
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
-                await send_data_to_Unity(websocket, data, debug=True)
+                await send_data_to_Unity(websocket, data)
             else:
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
