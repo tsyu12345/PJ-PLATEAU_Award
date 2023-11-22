@@ -45,7 +45,7 @@ public class DeviceInputManager : MonoBehaviour {
             //データの整形
             string cleanedData = ev.Data.Trim('"');
             cleanedData = cleanedData.Replace("\\\"", "\"");
-            //Debug.Log("Cleaned Data: " + cleanedData);
+            Debug.Log("Cleaned Data: " + cleanedData);
             OnCleanedDataReceived?.Invoke(cleanedData);
         };
 

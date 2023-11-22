@@ -83,6 +83,7 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         while True:
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
+                print(f'sending data to Unity: {data.strength}')
                 await send_data_to_Unity(websocket, data)
             else:
                 input: dict = await websocket.receive_json(mode="text")
