@@ -89,15 +89,18 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
                 device.renew(data)
+                print(f'[device Input {client_type}] {data.strength}')
     except WebSocketDisconnect:
         pass
+
+
 
 #sub functions
 async def send_data_to_Unity(client: WebSocket, data: ActivityData, debug: bool = False):
     """【Unity output】Unityクライアントにデータを送信する"""
     if debug:
         data = ActivityData(user_id="test", strength=random.uniform(0.0, 3.0))
-        print(f"send_data_to_Unity: {data.strength}")
+        print(f"[debug] send_data_to_Unity: {data.strength}")
 
     json_str = data.model_dump_json()
     await client.send_json(json_str, mode="text")

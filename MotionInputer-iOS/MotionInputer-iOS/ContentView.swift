@@ -7,6 +7,8 @@ struct ContentView: View {
     @State private var isMonitoring = false
     @State private var ipAddress = "127.0.0.1" // IPアドレスの初期値
     @State private var previousIPAddresses: [String] = UserDefaults.standard.stringArray(forKey: "previousIPAddresses") ?? []
+    @State private var showAlert = false // エラー警告を表示するための状態
+    @State private var alertMessage = "" // エラーメッセージを格納するための状態
     @StateObject private var motionDetector = MotionDetector()
     @StateObject private var webSocketManager = WebSocketManager()
 
@@ -50,6 +52,27 @@ struct ContentView: View {
                 stopMonitoring()
             }.buttonStyle(.bordered)
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Connection Error"),
+                message: Text(alertMessage),
+                primaryButton: .default(Text("Retry"), action: {
+                    startMonitoring()
+                }),
+                secondaryButton: .cancel(Text("Cancel")) {
+                    showAlert = false
+                    stopMonitoring()
+                }
+            )
+        }
+        .onAppear {
+            webSocketManager.onError = { error in
+                DispatchQueue.main.async {
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
         .padding()
     }
 
@@ -64,7 +87,7 @@ struct ContentView: View {
         motionDetector.motionDetected = { strength in
             guard self.isMonitoring else { return }
             DispatchQueue.main.async {
-                self.motionStrength = floor(strength)
+                self.motionStrength = strength
                 self.pushDataForServer(userId: self.userId, strength: Float(strength), clientType: "iOS")
             }
         }

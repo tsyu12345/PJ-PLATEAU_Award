@@ -11,7 +11,7 @@ class DeviceMotion:
         """デバイスの動きを更新する"""
         self.__DATA_BASE[data.user_id] = data.strength
     
-    def get_strength(self, user_id) -> float | None:
+    def get_strength(self, user_id) -> float:
         try:
             return self.__DATA_BASE[user_id]
         except KeyError:

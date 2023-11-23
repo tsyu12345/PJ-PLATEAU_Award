@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PLATEAU run WebServer"
-version = "0.2.0"
+version = "0.0.2"
 description = ""
 authors = ["SO 高林秀 <s.takabayashi@super-one.co.jp>"]
 readme = "README.md"

@@ -51,12 +51,10 @@ public class DeviceInputManager : MonoBehaviour {
 
         ws.OnError += (sender, e) => {
             Debug.Log("WebSocket Error Message: " + e.Message);
-            ws.Close();
         };
 
         ws.OnClose += (sender, e) => {
             Debug.Log("WebSocket Close");
-            ws.Close();
         };
 
     }
