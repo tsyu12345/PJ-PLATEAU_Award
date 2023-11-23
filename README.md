@@ -35,7 +35,7 @@
 
 ### 2. `pip install`の実行
  依存関係をインストールします。
- ```bash
+```bash
 pip install -r requirements.txt
 ```
 
