@@ -1,5 +1,5 @@
 # PLATEAU Run デモ版(Ver 0.0.2)
-![Alt text](demo2.png)
+![Alt text](/DocsImgs/demo2.png)
 # 環境要件
 本プロジェクトは以下の言語、パッケージを必要とし、下記記載のOSで動作を保証します。
 * マシン/OS : Intel Mac / MacOS Ventura 13.3.1
@@ -83,7 +83,7 @@ uvicorn webserver.main:app --host=0.0.0.0
 ```
 以下のような表示がでれば完了です。
 
-![Alt text](FastAPI-demo.jpg)
+![Alt text](/DocsImgs/FastAPI-demo.jpg)
 
 ## 2. 【iOS】iOS側アプリの準備
 1. Xcodeで以下のプロジェクトを読み込みます。
@@ -93,19 +93,19 @@ uvicorn webserver.main:app --host=0.0.0.0
 
 2. iPhoneをMacと接続し、Xcodeのビルド設定を以下の画像のように変更します。
 * 接続しているデバイスの名前を選択します。
-![Alt text](xcode-build-telop.jpg)
+![Alt text](/DocsImgs/xcode-build-telop.jpg)
 
 3. 下記画像の赤丸部分をクリックし、アプリケーションのビルドと実行を行います。
-![Alt text](xcode-demo.jpg)
+![Alt text](/DocsImgs/xcode-demo.jpg)
 * ビルドが完了すると、iPhone側にアプリがインストールされます。
 * iPhone用の開発者設定が有効になっていることを確認してください。
 
 4. アプリケーションが起動したら、Webサーバーに表示されているIPアドレスを入力します。
 * サーバーのコンソールには以下のように青字でアドレスが示されています。
-    ![Alt text](webserver-ip.jpg)
+    ![Alt text](/DocsImgs/webserver-ip.jpg)
     * この場合は`192.168.28.231:8000`
 * このアドレスをiOS側アプリのテキストフィールドに入力します。
-    ![Alt text](ios-app-ip.jpg)
+    ![Alt text](/DocsImgs/ios-app-ip.jpg)
 
 
 ##  3. 【Unity側】クライアントの実行
