@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var motionStrength = 0.0
     @State private var isMonitoring = false
     @State private var ipAddress = "127.0.0.1" // IPアドレスの初期値
+    @State private var userId = "TESTUSER1" // ここに適切なユーザーIDを設定
     @State private var previousIPAddresses: [String] = UserDefaults.standard.stringArray(forKey: "previousIPAddresses") ?? []
     @State private var showAlert = false // エラー警告を表示するための状態
     @State private var alertMessage = "" // エラーメッセージを格納するための状態
@@ -13,7 +14,6 @@ struct ContentView: View {
     @StateObject private var webSocketManager = WebSocketManager()
 
     
-    private let userId = "TESTUSER1" // ここに適切なユーザーIDを設定
 
     var body: some View {
         VStack {
@@ -35,7 +35,13 @@ struct ContentView: View {
                     }
                 }
             }
+            
+            
             TextField("Enter Server IP Address", text: $ipAddress)
+                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                 .multilineTextAlignment(.center) // テキストを中央寄せに設定
+                 .padding()
+            TextField("Enter Your UserID", text: $userId)
                  .textFieldStyle(RoundedBorderTextFieldStyle())
                  .multilineTextAlignment(.center) // テキストを中央寄せに設定
                  .padding()

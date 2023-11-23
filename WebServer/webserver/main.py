@@ -1,11 +1,13 @@
-from typing import Callable
-
+from typing import Callable, Any
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import socket
+import json
 import random
+from rich.console import Console
+from rich.panel import Panel
 
 from .modules.device_motion_store import DeviceMotion
 from .modules.ServerApp import AppConfig
@@ -35,7 +37,7 @@ def addEventListener(event: str, callback: Callable):
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
 app = FastAPI(lifespan=lifespan) #FastAPIインスタンスを生成
-config = AppConfig("../server_config.json") #設定ファイルを読み込む
+config = AppConfig("server_config.json") #設定ファイルを読み込む
 
 async def deploy_publicIP() -> None:
     """【Server output】サーバーの公開IPを設定ファイルに書き込む"""
@@ -49,20 +51,33 @@ async def deploy_publicIP() -> None:
     finally:
         s.close()
 
-    #取得したIPを吐き出す
-    # temp/ipconfig.txtを作成し書き込む
-    #ファイルが存在しない場合は作成される
-    with open("../PLATEAU-run Client/Assets/temp/ipconfig.txt", "w") as f:
+    with open("PLATEAU-run Client/Assets/temp/ipconfig.txt", "w") as f:
         addless = f'{IP}:{config.server.port}'
-        print(f"【!Your Server IP address!】{PrintColor.BLUE.value}{IP}:{config.server.port} {PrintColor.RESET.value}")
+        info = f"【!Your Server IP address!】{PrintColor.BLUE.value}{IP}:{config.server.port} {PrintColor.RESET.value}"
+        print(info)
         f.write(addless)
-        
 
+async def deploy_user_id() -> None:
+    """JSONファイルからユーザーIDをUnityに渡す"""
+    with open("TestAccount/TESTUSER1.json", "r") as f:
+        json_data = json.load(f)
+        user_id = json_data["userId"]
+        info = f"【!Your User ID!】{PrintColor.BLUE.value}{user_id}{PrintColor.RESET.value}"
+        print(info)
+        
+    #PLATEAU-run Client/Assets/UserConfigにuserId.jsonを作成し書き込む
+    #ファイルが存在しない場合は作成される
+    with open(f"PLATEAU-run Client/Assets/Config/{user_id}.json", "w") as f:
+        json_data = {
+            "userName": None, #TODO: ユーザー名表示対応時に設定する
+            "userId": user_id,
+        }
+        json.dump(json_data, f, indent=4)
 
 
 #Add event handlers
 addEventListener("startup", deploy_publicIP)
-
+addEventListener("startup", deploy_user_id)
 
 app.add_middleware(
     CORSMiddleware,
@@ -83,13 +98,13 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         while True:
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
-                print(f'sending data to Unity: {data.strength}')
+                #print(f'sending data to Unity: {data.strength}')
                 await send_data_to_Unity(websocket, data)
             else:
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
                 device.renew(data)
-                print(f'[device Input {client_type}] {data.strength}')
+                #print(f'[device Input {client_type}] {data.strength}')
     except WebSocketDisconnect:
         pass
 
