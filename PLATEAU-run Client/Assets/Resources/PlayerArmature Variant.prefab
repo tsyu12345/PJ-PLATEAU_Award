@@ -59,12 +59,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArmature Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4199799239038216683, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7485918609036388651, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 7706b42f3b23af44b97964fb29683433, type: 2}
     m_RemovedComponents:
     - {fileID: 505737925268446535, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
+    - {fileID: 9092229409891725239, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
 --- !u!1 &5419683434615644541 stripped
 GameObject:
@@ -83,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79ed280fec86fb4cbded986e812bfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 3880998891460295200, guid: 4984bc53ad74319449417ee92a49949a, type: 3}
+  destination: {fileID: 0}
   CurrentSpeed: 0
   walking: 0
   running: 0

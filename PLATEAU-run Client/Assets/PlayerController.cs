@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using DeviceManager;
 using Newtonsoft.Json;
+using Photon.Pun;
+using Photon.Realtime;
 
 
-public class PlayerController : MonoBehaviour { 
+public class PlayerController : MonoBehaviourPunCallbacks { 
     public GameObject destination; // 目的地
     [Header("Player Situation")]
     public int CurrentSpeed;
@@ -24,21 +26,30 @@ public class PlayerController : MonoBehaviour {
     /// 初期化処理
     /// </summary>
     void Start() {
-        deviceInputManager = GetComponent<DeviceInputManager>();
-        agent = GetComponent<NavMeshAgent>();
-        _animator = GetComponent<Animator>();
 
-        agent.SetDestination(destination.transform.position);
-        deviceInputManager.OnCleanedDataReceived += OnDeviceInput;
     }
 
     void Update() {
-        
+        agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
             onGoal();
         } else {
             ChangeAnimation();
         }
+    }
+
+
+    public override void OnEnable() {
+        base.OnEnable();
+        // PhotonNetwork.Instantiateの生成処理後に必要な初期化処理を行う
+        deviceInputManager = GetComponent<DeviceInputManager>();
+        agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+
+        deviceInputManager.OnCleanedDataReceived += OnDeviceInput;
+        //NOTE:PUNでスポーンすると目的地を正しく取得できないため、ここで目的地を設定する
+        destination = GameObject.FindWithTag("Finish");
+        agent.SetDestination(destination.transform.position);
     }
 
 
@@ -49,9 +60,9 @@ public class PlayerController : MonoBehaviour {
 
     private void ChangeAnimation() {
         if(running) {
-            _animator.SetBool("isRun", true);
+            _animator.SetBool("running", true);
         } else {
-            _animator.SetBool("isRun", false);
+            _animator.SetBool("running", false);
         }
 
         if(walking) {

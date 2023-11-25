@@ -1057,6 +1057,7 @@ GameObject:
   - component: {fileID: 505737925268446535}
   - component: {fileID: 505737925268446534}
   - component: {fileID: -537001095236614238}
+  - component: {fileID: 9092229409891725239}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -1093,7 +1094,7 @@ Animator:
   m_GameObject: {fileID: 4199799239038216683}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
-  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7706b42f3b23af44b97964fb29683433, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1284,6 +1285,23 @@ MonoBehaviour:
   UserSettingFile: Assets/Config/TESTUSER1.json
   userId: 
   clientType: Unity
+--- !u!114 &9092229409891725239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199799239038216683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79ed280fec86fb4cbded986e812bfe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {fileID: 0}
+  CurrentSpeed: 0
+  walking: 0
+  running: 0
+  SplitModeThreshold: 1.5
 --- !u!1 &4270713532531159864
 GameObject:
   m_ObjectHideFlags: 0
