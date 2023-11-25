@@ -7,7 +7,7 @@ using DeviceManager;
 using Newtonsoft.Json;
 
 
-public class PlayerScript : MonoBehaviour { 
+public class PlayerController : MonoBehaviour { 
     public GameObject destination; // 目的地
     [Header("Player Situation")]
     public int CurrentSpeed;

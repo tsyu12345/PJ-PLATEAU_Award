@@ -32,7 +32,7 @@ public class PUN2Manager : MonoBehaviourPunCallbacks {
         var startPosition = field.transform.position;
         //プレイヤーを生成する（y軸だけ少し浮かせる）
         var position = new Vector3(startPosition.x, startPosition.y + 1.0f, startPosition.z);
-        PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+        PhotonNetwork.Instantiate("PlayerArmature Variant", position, Quaternion.identity);
     }
 
     /// <summary>
