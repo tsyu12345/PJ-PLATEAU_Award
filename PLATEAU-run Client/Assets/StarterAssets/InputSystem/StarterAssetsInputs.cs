@@ -12,13 +12,6 @@ using UnityEngine.InputSystem;
 #endif
 
 
-[Serializable]
-public class InputData {
-    public string user_id;
-    public float strength;
-    public string client_type;
-}
-
 namespace StarterAssets
 {
 	public class StarterAssetsInputs : MonoBehaviour {
@@ -83,25 +76,25 @@ namespace StarterAssets
 #endif
 
 		void Start() {
-			deviceInputManager = GetComponent<DeviceInputManager>();
-			//deviceInputManager.OnCleanedDataReceived += OnMove; //Move関数を上書きする
+            deviceInputManager = GetComponent<DeviceInputManager>();
+            agent = GetComponent<NavMeshAgent>();
 
-			agent = GetComponent<NavMeshAgent>();
-			agent.SetDestination(destination.transform.position); // 目的地に向かう
-		}
-
-		void Update() {
-			// ユーザーの移動入力を取得
-            Vector3 movementInput = new Vector3(move.x, 0, move.y);
-			Debug.Log("Update: " + movementInput);
-
-
-            // キャラクターの向きをナビメッシュエージェントの方向に合わせる
-            Vector3 direction = agent.desiredVelocity.normalized;
-            if (direction != Vector3.zero) {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5.0f);
+            // エージェントの目的地を設定
+            if (destination != null) {
+                agent.SetDestination(destination.transform.position);
             }
-		}
+
+        }
+
+        void Update() {
+            // エージェントが目的地に向かって移動している場合のみ、キャラクターの向きを調整
+            if (!agent.pathPending && agent.remainingDistance > agent.stoppingDistance) {
+                Vector3 direction = agent.desiredVelocity.normalized;
+                if (direction != Vector3.zero) {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5.0f);
+                }
+            }
+        }
 
 
 		public void MoveInput(Vector2 newMoveDirection) {
