@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public bool walking = false;
     public bool running = false;
     [Header("Settings")]
+    public string NickName = "TEST Unit1"; // プレイヤー名
     public float SplitModeThreshold = 1.5f;
     private float Strength;
     private DeviceInputManager deviceInputManager;
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     /// 初期化処理
     /// </summary>
     void Start() {
-
+        
     }
 
     void Update() {
@@ -42,15 +43,20 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public override void OnEnable() {
         base.OnEnable();
         // PhotonNetwork.Instantiateの生成処理後に必要な初期化処理を行う
+        if(!photonView.IsMine) {
+            return;
+        }
         deviceInputManager = GetComponent<DeviceInputManager>();
         agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+        PhotonNetwork.NickName = NickName;
 
         deviceInputManager.OnCleanedDataReceived += OnDeviceInput;
         //NOTE:PUNでスポーンすると目的地を正しく取得できないため、ここで目的地を設定する
         destination = GameObject.FindWithTag("Finish");
         agent.SetDestination(destination.transform.position);
     }
+
 
 
     private void onGoal() {
