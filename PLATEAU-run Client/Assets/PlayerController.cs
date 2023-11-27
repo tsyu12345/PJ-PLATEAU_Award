@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     }
 
     void Update() {
-        agent.SetDestination(destination.transform.position);
+        //agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
             onGoal();
         } else {
@@ -53,9 +53,8 @@ public class PlayerController : MonoBehaviourPunCallbacks {
 
         PhotonNetwork.NickName = NickName;
         //カメラコンポーネントのディスプレイ割り当て
-        Camera camera = GetComponent<Camera>();
+        Camera camera = GetComponentInChildren<Camera>();
         camera.targetDisplay = displayNumber;
-        Display.displays[displayNumber].Activate();
 
 
         deviceInputManager.OnCleanedDataReceived += OnDeviceInput;
