@@ -18,10 +18,11 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     [Header("Settings")]
     public string NickName = "TEST Unit1"; // プレイヤー名
     public float SplitModeThreshold = 1.5f;
+    public int displayNumber = 2;
     private float Strength;
     private DeviceInputManager deviceInputManager;
     private NavMeshAgent agent;
-    private Animator _animator;
+    private Animator _animator; 
 
     /// <summary>
     /// 初期化処理
@@ -49,7 +50,13 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         deviceInputManager = GetComponent<DeviceInputManager>();
         agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+
         PhotonNetwork.NickName = NickName;
+        //カメラコンポーネントのディスプレイ割り当て
+        Camera camera = GetComponent<Camera>();
+        camera.targetDisplay = displayNumber;
+        Display.displays[displayNumber].Activate();
+
 
         deviceInputManager.OnCleanedDataReceived += OnDeviceInput;
         //NOTE:PUNでスポーンすると目的地を正しく取得できないため、ここで目的地を設定する
