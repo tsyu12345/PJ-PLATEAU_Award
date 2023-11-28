@@ -7,6 +7,7 @@ using WebSocketSharp;
 using Newtonsoft.Json;
 
 
+
 namespace DeviceManager {
     /// <summary>
     /// デバイスからモーション入力を受け取るためのマネージャークラス
@@ -22,9 +23,9 @@ namespace DeviceManager {
 
         public string clientType = "Unity";
 
-        private readonly Queue<Action> _mainThreadActions = new Queue<Action>();
         public delegate void CleanedDataHandler(string data);
         public event CleanedDataHandler OnCleanedDataReceived;
+        private static readonly Queue<Action> _mainThreadActions = new Queue<Action>();
         private WebSocket ws;
 
         void Start() {
@@ -41,8 +42,7 @@ namespace DeviceManager {
                 //データの整形
                 string cleanedData = ev.Data.Trim('"');
                 cleanedData = cleanedData.Replace("\\\"", "\"");
-                Debug.Log("Cleaned Data: " + cleanedData);
-                OnCleanedDataReceived?.Invoke(cleanedData);
+                OnCleanedDataReceived?.Invoke(cleanedData); 
             };
 
             ws.OnError += (sender, e) => {
@@ -53,6 +53,16 @@ namespace DeviceManager {
                 Debug.Log("WebSocket Close");
             };
 
+        }
+
+
+        public void AddEventListener(CleanedDataHandler listener) {
+            OnCleanedDataReceived += listener;
+        }
+
+        // イベントリスナーを削除するメソッド
+        public void RemoveEventListener(CleanedDataHandler listener) {
+            OnCleanedDataReceived -= listener;
         }
 
         /// <summary>

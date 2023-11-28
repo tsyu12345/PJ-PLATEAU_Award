@@ -404,9 +404,10 @@ MonoBehaviour:
   CurrentSpeed: 0
   walking: 0
   running: 0
+  countdownTime: 5
   NickName: TEST Unit1
   SplitModeThreshold: 1.5
-  displayNumber: 1
+  CountDownUI: {fileID: 0}
 --- !u!114 &6767982731084906859
 MonoBehaviour:
   m_ObjectHideFlags: 0
