@@ -52,7 +52,10 @@ namespace DeviceManager {
             ws.OnClose += (sender, e) => {
                 Debug.Log("WebSocket Close");
             };
+        }
 
+        void OnApplicationQuit() {
+            DisConnect();
         }
 
 

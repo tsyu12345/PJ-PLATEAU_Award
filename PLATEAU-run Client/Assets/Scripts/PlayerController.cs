@@ -27,13 +27,13 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private GameController gameManager;
     private NavMeshAgent agent;
     private Animator _animator;
-    [SerializeField]
     private Queue<Action> _mainThreadActions;
-
+    private bool loaded = false;
 
 
     void Update() {
         //agent.SetDestination(destination.transform.position);
+        if(loaded == false) { return; }
         if(gameManager.gameStarted == false) { return; }
 
         agent.SetDestination(destination.transform.position);
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         } else {
             ChangeAnimation();
         }
+        Debug.Log("Main Thread Action Count" + _mainThreadActions.Count);
         while (_mainThreadActions.Count > 0) {
             var action = _mainThreadActions.Dequeue();
             if(action != null) { 
@@ -60,7 +61,11 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             return;
         }
         deviceInputManager = GetComponent<DeviceInputManager>();
+        //FIXME:NullReferenceException
         gameManager = GameObject.Find("GameManager").GetComponent<GameController>();
+        if(gameManager == null) {
+            Debug.LogError("GameController is not found");
+        }
         _mainThreadActions =  new Queue<Action>();
         agent = GetComponent<NavMeshAgent>();
         Debug.Log("Agent" + agent);
@@ -75,10 +80,15 @@ public class PlayerController : MonoBehaviourPunCallbacks {
 
         //初期は待機状態
         Wait();
+        //子要素のカメラオブジェクトにAudioListenerを追加する
+        var camera = GetComponentInChildren<Camera>();
+        camera.gameObject.AddComponent<AudioListener>();
+
+        loaded = true;
     }
 
     public override void OnDisable() {
-        deviceInputManager.DisConnect();
+        //deviceInputManager.DisConnect();
         deviceInputManager.RemoveEventListener(OnDeviceInput);
     }
 
