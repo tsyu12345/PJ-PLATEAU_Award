@@ -39,10 +39,19 @@ namespace DeviceManager {
             };
 
             ws.OnMessage += (sender, ev) => {
-                //データの整形
-                string cleanedData = ev.Data.Trim('"');
-                cleanedData = cleanedData.Replace("\\\"", "\"");
-                OnCleanedDataReceived?.Invoke(cleanedData); 
+                try {
+                    //データの整形
+                    string cleanedData = ev.Data.Trim('"');
+                    cleanedData = cleanedData.Replace("\\\"", "\"");
+                
+                   // メインスレッドで実行するアクションをキューに追加
+                    _mainThreadActions.Enqueue(() => {
+                        OnCleanedDataReceived?.Invoke(cleanedData);
+                    });
+                } catch (Exception e) {
+                    Debug.LogError($"Error: {e}");
+                }
+
             };
 
             ws.OnError += (sender, e) => {
@@ -52,6 +61,15 @@ namespace DeviceManager {
             ws.OnClose += (sender, e) => {
                 Debug.Log("WebSocket Close");
             };
+        }
+
+        void Update() {
+            while (_mainThreadActions.Count > 0) {
+                var action = _mainThreadActions.Dequeue();
+                if(action != null) { 
+                    action.Invoke();
+                }
+            }
         }
 
         void OnApplicationQuit() {

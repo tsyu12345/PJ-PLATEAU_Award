@@ -33,9 +33,15 @@ public class PlayerController : MonoBehaviourPunCallbacks {
 
     void Update() {
         //agent.SetDestination(destination.transform.position);
-        if(loaded == false) { return; }
-        if(gameManager.gameStarted == false) { return; }
-
+        if(loaded == false) { 
+            Debug.LogWarning("loaded is false");
+            return; 
+        }
+        if(gameManager.gameStarted == false) { 
+            Debug.LogWarning("gameManager.gameStarted is false");
+            return; 
+        }
+        Debug.Log("updating");
         agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
             Wait();
@@ -62,13 +68,13 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         }
         deviceInputManager = GetComponent<DeviceInputManager>();
         //FIXME:NullReferenceException
-        gameManager = GameObject.Find("GameManager").GetComponent<GameController>();
+        gameManager = GameObject.Find("GameObserver").GetComponent<GameController>();
+        Debug.LogWarning("gameManeer.gameStarted" + gameManager.gameStarted);
         if(gameManager == null) {
             Debug.LogError("GameController is not found");
         }
         _mainThreadActions =  new Queue<Action>();
         agent = GetComponent<NavMeshAgent>();
-        Debug.Log("Agent" + agent);
         _animator = GetComponent<Animator>();
 
         PhotonNetwork.NickName = NickName;
@@ -147,6 +153,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {
+            Debug.Log("Current Speed" + CurrentSpeed);
             agent.speed = CurrentSpeed;
         });
         

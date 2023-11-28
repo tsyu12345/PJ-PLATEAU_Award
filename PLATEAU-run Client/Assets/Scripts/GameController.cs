@@ -14,7 +14,7 @@ namespace GameManager {
 
     public class GameController : MonoBehaviour {
         public bool countdownStarted = false;
-        public bool gameStarted = true;
+        public bool gameStarted = false;
         public bool gameFinished = false;
         public bool waitingPlayers = false;
         public float countdownTime = 5.0f;
@@ -41,7 +41,7 @@ namespace GameManager {
 
         void Update() {
             if(countdownStarted) {
-                //CountDown();
+                CountDown();
             }
         }
 
