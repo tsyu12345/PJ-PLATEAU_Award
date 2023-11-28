@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private bool gameStarted = false;
     [SerializeField]
     private TextMeshProUGUI CountDownUI;
-    private readonly Queue<Action> _mainThreadActions = new Queue<Action>();
+    private Queue<Action> _mainThreadActions;
 
     void Update() {
         //agent.SetDestination(destination.transform.position);
@@ -72,8 +72,12 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             ChangeAnimation();
         }
         while (_mainThreadActions.Count > 0) {
-            _mainThreadActions.Dequeue().Invoke();
+            var action = _mainThreadActions.Dequeue();
+            if(action != null) { 
+                action.Invoke();
+            }
         }
+        Debug.Log("Agent Speed: " + agent.speed);
     }
 
     /// <summary>
@@ -86,6 +90,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             return;
         }
         deviceInputManager = GetComponent<DeviceInputManager>();
+        _mainThreadActions =  new Queue<Action>();
         agent = GetComponent<NavMeshAgent>();
         Debug.Log("Agent" + agent);
         _animator = GetComponent<Animator>();
