@@ -65,6 +65,10 @@ namespace DeviceManager {
             OnCleanedDataReceived -= listener;
         }
 
+        public void DisConnect() {
+            ws.Close();
+        }
+
         /// <summary>
         /// ユーザーのプロフィールのJSONを読み、userIdを取得する
         /// </summary>
@@ -83,12 +87,6 @@ namespace DeviceManager {
             ws = new WebSocket(uri);
             ws.Connect();
         }
-
-        void OnApplicationQuit() {
-            ws.Close();
-            Debug.Log("WebSocket Connection Closed");
-        }
-
     }
 
     [System.Serializable]

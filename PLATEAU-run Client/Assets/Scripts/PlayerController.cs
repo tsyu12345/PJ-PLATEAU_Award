@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
-using DeviceManager;
 using Newtonsoft.Json;
 using Photon.Pun;
 using Photon.Realtime;
+
+using GameManager;
+using DeviceManager;
 
 //TODO:適切にクラスを分割する
 //現在はスピード優先で実装しているため、ゲームロジックの全てをこのクラスに書いている
@@ -18,56 +20,25 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public bool walking = false;
     public bool running = false;
     [Header("Settings")]
-    public float countdownTime = 5.0f;
     public string NickName = "TEST Unit1"; // プレイヤー名
     public float SplitModeThreshold = 1.5f;
     private float Strength;
     private DeviceInputManager deviceInputManager;
+    private GameController gameManager;
     private NavMeshAgent agent;
     private Animator _animator;
-    private bool countdownStarted = false;
-    private bool gameStarted = false;
     [SerializeField]
-    private TextMeshProUGUI CountDownUI;
     private Queue<Action> _mainThreadActions;
+
+
 
     void Update() {
         //agent.SetDestination(destination.transform.position);
-        
-        if(agent == null || _animator == null) {
-            return;
-        }
-        var others = PhotonNetwork.PlayerListOthers;
-        if (others.Length == 0 && !countdownStarted) {
-            Wait();
-            return;
-        }
+        if(gameManager.gameStarted == false) { return; }
 
-        //
-        if (!countdownStarted && gameStarted == false) {
-            countdownStarted = true;
-            countdownTime = 5.0f; // カウントダウンをリセット
-            return;
-        } else if (countdownStarted && countdownTime > 0) {
-            countdownTime -= Time.deltaTime;
-            CountDownUI.text = ((int)countdownTime).ToString();
-            Debug.Log("Countdown: " + countdownTime);
-            return; // カウントダウンが0になるまで待機
-        } else if (countdownTime < 0) {
-            CountDownUI.text = "GO!";
-            Debug.Log("Countdown: GO!");
-            // カウントダウンが0になったらGO!
-            countdownStarted = false;
-            gameStarted = true;
-            // カウントダウンUIを非表示にする
-            CountDownUI.text = "";
-            return;
-        }
-        
-        
         agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
-            onGoal();
+            Wait();
         } else {
             ChangeAnimation();
         }
@@ -77,7 +48,6 @@ public class PlayerController : MonoBehaviourPunCallbacks {
                 action.Invoke();
             }
         }
-        Debug.Log("Agent Speed: " + agent.speed);
     }
 
     /// <summary>
@@ -90,6 +60,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             return;
         }
         deviceInputManager = GetComponent<DeviceInputManager>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameController>();
         _mainThreadActions =  new Queue<Action>();
         agent = GetComponent<NavMeshAgent>();
         Debug.Log("Agent" + agent);
@@ -102,8 +73,13 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         destination = GameObject.FindWithTag("Finish");
         agent.SetDestination(destination.transform.position);
 
-        CountDownUI = GameObject.Find("CountDown").GetComponent<TextMeshProUGUI>();
-        gameStarted = true;
+        //初期は待機状態
+        Wait();
+    }
+
+    public override void OnDisable() {
+        deviceInputManager.DisConnect();
+        deviceInputManager.RemoveEventListener(OnDeviceInput);
     }
 
 
@@ -114,10 +90,18 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         CurrentSpeed = 0.0f;
     }
 
-    private void onGoal() {
-        walking = false;
+    private void Walk() {
+        walking = true;
         running = false;
-        agent.isStopped = true;
+        agent.isStopped = false;
+        CurrentSpeed = 3.0f;
+    }
+
+    private void Splint() {
+        walking = false;
+        running = true;
+        agent.isStopped = false;
+        CurrentSpeed = 5.0f;
     }
 
     private void ChangeAnimation() {
@@ -140,24 +124,17 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     /// <param name="json"></param>
     /// 
     private void OnDeviceInput(string json) {
+        if(gameManager.gameStarted == false) { return; }
         InputData data = JsonConvert.DeserializeObject<InputData>(json);
         Strength = data.strength;
-        if(gameStarted == false) { return; }
         if(Strength >= SplitModeThreshold) {
-            CurrentSpeed = 5.0f;
-            running = true;
-            walking = false;
+            Splint();
         } else if(Strength == 0.0f) {
-            CurrentSpeed = 0.0f;
-            running = false;
-            walking = false;
+            Wait();
         } else {
-            CurrentSpeed = 3.0f;
-            running = false;
-            walking = true;
+            Walk();
         }
-        //Debug.Log("Current Speed: " + CurrentSpeed);
-        
+    
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {
             agent.speed = CurrentSpeed;
