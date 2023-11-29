@@ -93,8 +93,13 @@ struct ContentView: View {
         motionDetector.motionDetected = { strength in
             guard self.isMonitoring else { return }
             DispatchQueue.main.async {
-                self.motionStrength = strength
-                self.pushDataForServer(userId: self.userId, strength: Float(strength), clientType: "iOS")
+                var adjustedStrength = strength
+                // strengthが1.0未満の場合は、0.00とする
+                if adjustedStrength < 1.0 {
+                    adjustedStrength = 0.0
+                }
+                self.motionStrength = adjustedStrength
+                self.pushDataForServer(userId: self.userId, strength: Float(adjustedStrength), clientType: "iOS")
             }
         }
         motionDetector.startMonitoring()
