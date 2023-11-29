@@ -21,6 +21,10 @@ namespace GameManager {
         public delegate void GameEvent();
         public static event GameEvent OnGameStart;
         public TextMeshProUGUI CountDownUI;
+        public string waitingText = "Waiting for other players";
+
+        private float dotTimer = 0.0f;
+        private int dotCount = 0;
 
 
         void Start() {
@@ -37,11 +41,15 @@ namespace GameManager {
             PUN2Manager.OnPlayerLeft += (player) => {
                 Debug.Log("Player Left");
             };
+            waitingPlayers = true;
         }
 
         void Update() {
             if(countdownStarted) {
                 CountDown();
+            }
+            if(waitingPlayers) {
+                UpdateWaitingText();
             }
         }
 
@@ -51,11 +59,9 @@ namespace GameManager {
 
             if (countdownTime < 0) {
                 CountDownUI.text = "GO!";
-                Debug.Log("Countdown: GO!");
                 // カウントダウンが0になったらGO!
                 countdownStarted = false;
-                // カウントダウンUIを非表示にする
-                CountDownUI.text = "";
+                StartCoroutine(HideCountdownUI());
                 gameStarted = true;
                 OnGameStart?.Invoke();
             }
@@ -64,6 +70,25 @@ namespace GameManager {
         public void resetCountDownTimer() {
             countdownTime = 5.0f;
             countdownStarted = false;
+        }
+
+        private void UpdateWaitingText() {
+            dotTimer += Time.deltaTime;
+
+            if (dotTimer >= 1.0f) {
+                dotTimer = 0f;
+                dotCount++;
+                if (dotCount > 3) {
+                    dotCount = 0;
+                }
+
+                CountDownUI.text = waitingText + " " + new string('.', dotCount);
+            }
+        }
+
+        private IEnumerator HideCountdownUI() {
+            yield return new WaitForSeconds(1); // 1秒待機
+            CountDownUI.text = ""; // UIを非表示にする
         }
 
     }

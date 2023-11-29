@@ -13,8 +13,11 @@ using DeviceManager;
 
 //TODO:適切にクラスを分割する
 //現在はスピード優先で実装しているため、ゲームロジックの全てをこのクラスに書いている
-public class PlayerController : MonoBehaviourPunCallbacks { 
+public class PlayerController : MonoBehaviourPunCallbacks {
+    [Header("Player Object")]
+    [SerializeField]
     public GameObject destination; // 目的地
+    public GameObject playerCamera; // プレイヤーのカメラ
     [Header("Player Situation")]
     public float CurrentSpeed;
     public bool walking = false;
@@ -87,8 +90,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         //初期は待機状態
         Wait();
         //子要素のカメラオブジェクトにAudioListenerを追加する
-        var camera = GetComponentInChildren<Camera>();
-        camera.gameObject.AddComponent<AudioListener>();
+        playerCamera.AddComponent<AudioListener>();
 
         loaded = true;
     }
@@ -96,6 +98,11 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public override void OnDisable() {
         //deviceInputManager.DisConnect();
         deviceInputManager.RemoveEventListener(OnDeviceInput);
+    }
+
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        ChangeCameraActivate();
     }
 
 
@@ -155,8 +162,22 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         _mainThreadActions.Enqueue(() => {
             Debug.Log("Current Speed" + CurrentSpeed);
             agent.speed = CurrentSpeed;
-        });
-        
+        });   
+    }
+
+
+    private void ChangeCameraActivate() {
+        if (photonView.IsMine) {
+            // このオブジェクトがローカルプレイヤーの場合のみカメラを有効化
+            Camera myCamera = playerCamera.GetComponent<Camera>();
+            myCamera.enabled = true;
+        } else {
+            // リモートプレイヤーの場合はカメラを無効化
+            Camera otherCamera = playerCamera.GetComponent<Camera>();
+            if (otherCamera != null) {
+                otherCamera.enabled = false;
+            }
+        }
     }
 
 
