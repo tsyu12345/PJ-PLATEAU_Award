@@ -37,21 +37,19 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     void Update() {
         //agent.SetDestination(destination.transform.position);
         if(loaded == false) { 
-            Debug.LogWarning("loaded is false");
+            //Debug.LogWarning("loaded is false");
             return; 
         }
         if(gameManager.gameStarted == false) { 
-            Debug.LogWarning("gameManager.gameStarted is false");
+            //Debug.LogWarning("gameManager.gameStarted is false");
             return; 
         }
-        Debug.Log("updating");
         agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
             Wait();
         } else {
             ChangeAnimation();
         }
-        Debug.Log("Main Thread Action Count" + _mainThreadActions.Count);
         while (_mainThreadActions.Count > 0) {
             var action = _mainThreadActions.Dequeue();
             if(action != null) { 
@@ -67,12 +65,15 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public override void OnEnable() {
         base.OnEnable();
         if(!photonView.IsMine) {
+            //カメラを無効化する
+            Destroy(playerCamera);
+            Debug.Log("Camera Disabled");
             return;
         }
         deviceInputManager = GetComponent<DeviceInputManager>();
         //FIXME:NullReferenceException
         gameManager = GameObject.Find("GameObserver").GetComponent<GameController>();
-        Debug.LogWarning("gameManeer.gameStarted" + gameManager.gameStarted);
+        //Debug.LogWarning("gameManeer.gameStarted" + gameManager.gameStarted);
         if(gameManager == null) {
             Debug.LogError("GameController is not found");
         }
@@ -89,6 +90,10 @@ public class PlayerController : MonoBehaviourPunCallbacks {
 
         //初期は待機状態
         Wait();
+
+        Camera myCamera = playerCamera.GetComponent<Camera>();
+        myCamera.enabled = true;
+        Debug.Log("Camera Enabled");
         //子要素のカメラオブジェクトにAudioListenerを追加する
         playerCamera.AddComponent<AudioListener>();
 
@@ -160,7 +165,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {
-            Debug.Log("Current Speed" + CurrentSpeed);
+            //Debug.Log("Current Speed" + CurrentSpeed);
             agent.speed = CurrentSpeed;
         });   
     }
@@ -169,14 +174,10 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private void ChangeCameraActivate() {
         if (photonView.IsMine) {
             // このオブジェクトがローカルプレイヤーの場合のみカメラを有効化
-            Camera myCamera = playerCamera.GetComponent<Camera>();
-            myCamera.enabled = true;
+            
         } else {
-            // リモートプレイヤーの場合はカメラを無効化
-            Camera otherCamera = playerCamera.GetComponent<Camera>();
-            if (otherCamera != null) {
-                otherCamera.enabled = false;
-            }
+            // リモートプレイヤーの場合はカメラを無効化（オブジェクトの削除）
+            
         }
     }
 

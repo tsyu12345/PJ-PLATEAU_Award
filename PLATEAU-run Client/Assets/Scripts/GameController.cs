@@ -16,7 +16,7 @@ namespace GameManager {
         public bool countdownStarted = false;
         public bool gameStarted = false;
         public bool gameFinished = false;
-        public bool waitingPlayers = false;
+        public bool waitingPlayers = true;
         public float countdownTime = 5.0f;
         public delegate void GameEvent();
         public static event GameEvent OnGameStart;
@@ -30,21 +30,21 @@ namespace GameManager {
         void Start() {
             PUN2Manager.OnPlayerEntered += (player) => {
                 Debug.Log("Player Entered");
-                if (PhotonNetwork.IsMasterClient) {
-                    if (PhotonNetwork.PlayerList.Length == 2) {
-                        waitingPlayers = false;
-                        countdownStarted = true;
-                    }
+                if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length == 2) {
+                    countdownStarted = true;
+                    waitingPlayers = false;
+                } else {
+                    waitingPlayers = true;
                 }
             };
 
             PUN2Manager.OnPlayerLeft += (player) => {
                 Debug.Log("Player Left");
             };
-            waitingPlayers = true;
         }
 
         void Update() {
+            
             if(countdownStarted) {
                 CountDown();
             }
@@ -89,6 +89,7 @@ namespace GameManager {
         private IEnumerator HideCountdownUI() {
             yield return new WaitForSeconds(1); // 1秒待機
             CountDownUI.text = ""; // UIを非表示にする
+            CountDownUI.gameObject.SetActive(false);
         }
 
     }

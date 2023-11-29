@@ -936,7 +936,6 @@ GameObject:
   - component: {fileID: 4199799239038216673}
   - component: {fileID: 505737925268446532}
   - component: {fileID: 505737925268446533}
-  - component: {fileID: 505737925268446535}
   - component: {fileID: 505737925268446534}
   - component: {fileID: -537001095236614238}
   - component: {fileID: 9092229409891725239}
@@ -1115,19 +1114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e3581693cc0c64b88cd360a7253125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &505737925268446535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4199799239038216683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7df1654c6aa7c498d3e8c4db19a552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goal: {fileID: 0}
 --- !u!195 &505737925268446534
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1178,14 +1164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79ed280fec86fb4cbded986e812bfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 0}
+  destination: {fileID: 3880998891460295200, guid: 4984bc53ad74319449417ee92a49949a, type: 3}
+  playerCamera: {fileID: 0}
   CurrentSpeed: 0
   walking: 0
   running: 0
-  countdownTime: 5
   NickName: TEST Unit1
   SplitModeThreshold: 1.5
-  CountDownUI: {fileID: 0}
 --- !u!1 &4270713532531159864
 GameObject:
   m_ObjectHideFlags: 0
