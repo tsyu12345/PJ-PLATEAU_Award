@@ -116,7 +116,6 @@ async def send_data_to_Unity(client: WebSocket, data: ActivityData, debug: bool 
     """【Unity output】Unityクライアントにデータを送信する"""
     if debug:
         data = ActivityData(user_id="test", strength=1.8)
-        print(f"[debug] send_data_to_Unity: {data.strength}")
 
     json_str = data.model_dump_json()
     await client.send_json(json_str, mode="text")

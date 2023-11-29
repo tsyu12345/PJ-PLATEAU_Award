@@ -22,24 +22,28 @@ namespace GameManager {
         public static event GameEvent OnGameStart;
         public TextMeshProUGUI CountDownUI;
         public string waitingText = "Waiting for other players";
-
         private float dotTimer = 0.0f;
         private int dotCount = 0;
+        private int PlayerCount = 0;
 
 
         void Start() {
-            PUN2Manager.OnPlayerEntered += (player) => {
-                Debug.Log("Player Entered");
-                if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length == 2) {
-                    countdownStarted = true;
-                    waitingPlayers = false;
-                } else {
-                    waitingPlayers = true;
+            PUN2Manager.OnEnterRoom += (int PlayerCount) => {
+                this.PlayerCount = PlayerCount;
+                if(gameStarted == false) {
+                    StartCountdown();
+                }
+            };
+
+            PUN2Manager.OnPlayerEntered += (Player player) => {
+                this.PlayerCount = PhotonNetwork.PlayerList.Length;
+                if(gameStarted == false) {
+                    StartCountdown();
                 }
             };
 
             PUN2Manager.OnPlayerLeft += (player) => {
-                Debug.Log("Player Left");
+                this.PlayerCount = PhotonNetwork.PlayerList.Length;
             };
         }
 
@@ -70,6 +74,18 @@ namespace GameManager {
         public void resetCountDownTimer() {
             countdownTime = 5.0f;
             countdownStarted = false;
+        }
+
+
+        private void StartCountdown() {
+            Debug.LogWarning("[GameController]" + PhotonNetwork.PlayerList.Length);
+            if (PlayerCount >= 2) { //他プレイヤーが1人以上いる場合
+                Debug.LogWarning("Player Entered");
+                countdownStarted = true;
+                waitingPlayers = false;
+            } else {
+                waitingPlayers = true;
+            }
         }
 
         private void UpdateWaitingText() {

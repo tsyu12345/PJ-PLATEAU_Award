@@ -10,6 +10,8 @@ namespace PUN2 {
         public delegate void RoomEvent(Player player);
         public static event RoomEvent OnPlayerEntered;
         public static event RoomEvent OnPlayerLeft;
+        public delegate void OnEnterRoomEvent(int PlayerCount);
+        public static event OnEnterRoomEvent OnEnterRoom;
         
         void Start(){
             // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
@@ -37,6 +39,7 @@ namespace PUN2 {
             //プレイヤーを生成する（y軸だけ少し浮かせる）
             var position = new Vector3(startPosition.x, startPosition.y + 1.0f, startPosition.z);
             PhotonNetwork.Instantiate("PlayerArmature Variant", position, Quaternion.identity);
+            OnEnterRoom?.Invoke(PhotonNetwork.PlayerList.Length);
         }
 
         /// <summary>

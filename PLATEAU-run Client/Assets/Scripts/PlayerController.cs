@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     [Header("Settings")]
     public string NickName = "TEST Unit1"; // プレイヤー名
     public float SplitModeThreshold = 1.5f;
+    public delegate void GoalEvent(); //TODO:ゴールした者のデータオブジェクトを使す
     private float Strength;
     private DeviceInputManager deviceInputManager;
     private GameController gameManager;
@@ -32,6 +33,11 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private Animator _animator;
     private Queue<Action> _mainThreadActions;
     private bool loaded = false;
+    private bool isGoal = false;
+    private static GoalEvent onGoal;
+
+    private TextMeshProUGUI GoalMessage;
+    
 
 
     void Update() {
@@ -46,7 +52,13 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         }
         agent.SetDestination(destination.transform.position);
         if (agent.remainingDistance <= agent.stoppingDistance) {
+            //Debug.LogWarning("Goal");
+            isGoal = true;
+            deviceInputManager.RemoveEventListener(OnDeviceInput);
+            GoalMessage.gameObject.SetActive(true);
+
             Wait();
+            onGoal?.Invoke();
         } else {
             ChangeAnimation();
         }
@@ -82,6 +94,9 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         _animator = GetComponent<Animator>();
 
         PhotonNetwork.NickName = NickName;
+        //自身の名前表示は不要
+        var nameObj = GameObject.Find("PlayerName");
+        Destroy(nameObj);
 
         deviceInputManager.AddEventListener(OnDeviceInput);
         //NOTE:PUNでスポーンすると目的地を正しく取得できないため、ここで目的地を設定する
@@ -96,6 +111,9 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         Debug.Log("Camera Enabled");
         //子要素のカメラオブジェクトにAudioListenerを追加する
         playerCamera.AddComponent<AudioListener>();
+
+        GoalMessage = GameObject.Find("GoalMessage").GetComponent<TextMeshProUGUI>();
+        GoalMessage.gameObject.SetActive(false);
 
         loaded = true;
     }
@@ -153,6 +171,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     /// 
     private void OnDeviceInput(string json) {
         if(gameManager.gameStarted == false) { return; }
+        if(isGoal == true) { return; }
         InputData data = JsonConvert.DeserializeObject<InputData>(json);
         Strength = data.strength;
         if(Strength >= SplitModeThreshold) {
