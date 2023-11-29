@@ -99,7 +99,7 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
                 #print(f'sending data to Unity: {data.strength}')
-                await send_data_to_Unity(websocket, data)
+                await send_data_to_Unity(websocket, data, debug=True)
             else:
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
@@ -108,13 +108,14 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
     except WebSocketDisconnect:
         pass
 
+#TODO:ユーザー情報JSONファイルを生成するエンドポイントを追加
 
 
 #sub functions
 async def send_data_to_Unity(client: WebSocket, data: ActivityData, debug: bool = False):
     """【Unity output】Unityクライアントにデータを送信する"""
     if debug:
-        data = ActivityData(user_id="test", strength=random.uniform(0.0, 3.0))
+        data = ActivityData(user_id="test", strength=1.8)
         print(f"[debug] send_data_to_Unity: {data.strength}")
 
     json_str = data.model_dump_json()
