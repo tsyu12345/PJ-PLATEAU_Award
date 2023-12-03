@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pj-plateau-award"
+name = "PLATEAU Walk & Run Ver0.0.3"
 version = "0.0.3"
-description = ""
+description = "コア機能 & マルチプレイ試験版"
 authors = ["SO 高林秀 <s.takabayashi@super-one.co.jp>"]
 readme = "README.md"
 

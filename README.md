@@ -1,133 +1,152 @@
-# PLATEAU Run デモ版(Ver 0.0.2)
-![Alt text](/DocsImgs/demo2.png)
-# 環境要件
-本プロジェクトは以下の言語、パッケージを必要とし、下記記載のOSで動作を保証します。
-* マシン/OS : Intel Mac / MacOS Ventura 13.3.1
-* 言語環境
-    * Python 3.11以上
-    * Unity 2021.3.31f1
-    * Xcode Ver 14.3
-    * iOS 15.8以上のデバイス
+# PLATEAU Walk & Run（試験版）
+[![Alt text](DocsImgs\YoutubeThumb.png)](https://www.youtube.com/watch?v=BPK70Fz0FJ0)
+# 開発環境
+本プロジェクトは以下の開発環境を使用し制作されました。
+### リモコンアプリ
+- iOS版
+    - [Xcode Ver 14.3](https://developer.apple.com/documentation/xcode-release-notes/xcode-14_3-release-notes)
+    - Swift5
+- Android版（未リリース）
+    - 目下開発中
+    - 2023年12月中旬リリース予定
 
-# 環境構築編
-本プロジェクトでは、以下の3つの環境で動作するため、clone or ダウンロード後は以下の手順で、それぞれ環境構築が必要です。
+### モーション入力用Webサーバ
+- [Python 3.11.5](https://www.python.org/downloads/release/python-3115/)
+- [FastAPI 0.104.0](https://pypi.org/project/fastapi/)
 
-## 【Webサーバ】
- 本デモのWebサーバは`FastAPI`で動作します.
- 通常の`pip`による環境構築は以下の手順です。
-### 1. 仮想環境の用意
+※他の利用ライブラリ/フレームワークについては、`requirements.txt`または`pyproject.toml`を参照してください。
 
- プロジェクトルートから、以下のディレクトリに移動し、仮想環境を構築します。
- ```bash
- cd WebServer
- ```
- その後、`venv`による仮想環境構築を実行します。
- ```bash
- python -m venv .venv
- ```
- 仮想環境をアクティベートします。
- ```bash
- source venv/bin/activate
+### Unityクライアント
+- [Unity 2021.3.31f1](https://unity.com/releases/editor/whats-new/2021.3.31)
+- [PLATEAU SDK for Unity v2.1.0-alpha](https://github.com/Synesthesias/PLATEAU-SDK-for-Unity/releases/tag/v2.1.0-alpha)
+- [Photon Unity Networking 2 Version 2.43](https://assetstore.unity.com/packages/tools/network/pun-2-free-119922)
+- [websocket-sharp](https://github.com/sta/websocket-sharp) 
 
- after activate ...
- (.venv) $ <- この様にプロンプトの先頭に(.venv)が付き仮想環境が有効になっていることを確認します。
- ```
 
-### 2. `pip install`の実行
- 依存関係をインストールします。
+# 実行環境構築編
+本プロジェクトのリポジトリクローン後の開発環境を構築する手順を記載します。
+
+本手順では、試験版の動作に必要な環境の構築を行います。
+開発に関する環境構築は別途掲載している[開発環境構築編（README-dev.md）](./README-dev.md)を参照して下さい。
+
+**なおiOS版リモコンアプリのビルドとインストールにはXcodeに加え対応するMacOSが必要です。**
+
+## リモコンアプリ
+**アプリのインストールには、iPhoneの開発者設定を有効化する必要があります。**
+### 1. Xcodeプロジェクトの読み込み
+以下のXcodeプロジェクトファイルをXcodeで読み込んで下さい。
+```
+MotionInputer-iOS\MotionInputer-iOS.xcodeproj
+```
+### 2.iPhoneの接続
+iPhoneをMacに接続し、Xcodeの左上のデバイス選択ボタンから接続したiPhoneを選択して下さい。
+![Alt text](DocsImgs/xcode-build-telop.jpg)
+
+### 3. ビルドとインストール
+下図の赤丸の部分にある、ビルドボタンを押下し、アプリのビルドとインストールを行って下さい。
+![Alt text](DocsImgs/xcode-demo.jpg)
+
+### 4. アプリの起動
+iPhoneのホーム画面に`MotionInputer-iOS`というアプリがインストールされているので、起動して下さい。
+
+起動後の画面は以下のようになります。
+![Alt text](DocsImgs/iOS-APP.png)
+
+## モーション入力用Webサーバ
+**本サーバーはPythonの実行環境を必要とします。**
+### （推奨）仮想環境の構築
+本プロジェクトでは外部のライブラリを使用する為、仮想環境の構築を推奨します。
+本操作は必須ではありませんが、既存のPython環境との競合を避けるため、仮想環境の構築を推奨します。
+
+基本的な仮想環境の構築手順は以下の通りです。
+1. 仮想環境の作成
+以下のコマンドを実行し、仮想環境を作成します。
+```bash
+python -m venv .venv
+```
+2. 仮想環境の有効化
+以下のコマンドを実行し、仮想環境を有効化します。
+- MacOSの場合
+```bash
+source .venv/bin/activate
+```
+- Windows(PowerShell)の場合
+```bash
+.venv\Scripts\Activate.ps1
+```
+仮想環境の有効化が完了すれば、以下のようにプロンプトの先頭に`.venv`と表示されます。
+```bash
+(.venv) PS C:\Users\user\YorPJPath>
+```
+
+### 依存関係のインストール
+以下のコマンドを実行し、依存関係をインストールします。
 ```bash
 pip install -r requirements.txt
 ```
 
-## 【Xcode側】
-XcodeがインストールされているMacであればXcode側で追加のインストール等は必要ありません。
+## Unityクライアント
 
-## 【Unity側】
-本プロジェクトではPLATEAUの大容量ファイルを扱います。クローン後は以下の共有フォルダから`LFSファイル一覧`にあるZipファイルをダウンロードして、指定の展開先に展開する必要があります。
+### 1.試験版シーンデータのダウンロード
+本プロジェクトではPLATEAUの大容量ファイルを扱います。
+以下のURLに試験コースのシーンデータをアップロードしています.
 
-`【重要】PLATEAU試験マップは現在準備中です。`
-本デモでは使用しないため、この手順はスキップしても問題ありません。
+以下の一覧に記載のあるZipファイルをダウンロードし、内容物を展開して配置して下さい。
+### シーンデータ一覧（最終更新: 2023/11/30）
+- **[Scenes.zip](https://drive.google.com/open?id=1fIiYodMer5ZQ4LErB5P1qzfYE8eBmRgI&usp=drive_fs)**
+    - 試験マップのシーンデータです。
+    - 内容物：`PLATEAU-TEST.unity`,`PLATEAU-TEST.unity.meta`
+    - **展開先**: `PLATEAU-run Client/Assets/Scenes`
 
-### Zipファイル格納先
-https://drive.google.com/open?id=1eyTGow0vdNQ8ac8KhpnXQFOiisHOQgDK&usp=drive_fs
+- **[StreamingAssets.zip](https://drive.google.com/open?id=1fHidXY2yjPLjHyxpjs8COQZhT4HKZ2A4&usp=drive_fs)**
+    - 試験マップのテクスチャデータです。
+    - 内容物: `.PLATEAU`
+    - `StreamingAssets`フォルダを以下の展開先に配置して下さい。
+    - **展開先**: `PLATEAU-run Client/Assets`
 
-### LFS ファイル一覧 (最終更新日: 2023/11/16)
-* StreamingAssets.zip
-    * PLATEAUマップのテクスチャが含まれています。
-    * 展開先 : `"./PLATEAU-run Client/Assets/StreamingAssets"`
-
-* Scenes.zip
-    * PLATEAUをUnityで展開した際のシーン情報です。
-    * 内容物を以下のディレクトリに展開・配置してください。
-    * 展開先 : `"./PLATEAU-run Client/Assets/Scenes"`
-
-
-
-# デモ起動編
-以下の準備では、Webサーバー、iOS側アプリ、Unity側アプリの3つの環境を起動します。
-
-この時、サーバー（Mac）とクライアント（iOS側アプリ、Unity側アプリ）は同じネットワークに接続されている必要があります。
-`同じLAN（Wi-Fi）に接続されていることを確認してください。`
-
-また、この後表示されるポート番号（今回は`8000番`）が解放されている必要があります。
-`ファイアウォール等でポート番号がブロックされていないことを確認してください。`
-
-## 1.【Webサーバ】Webサーバを起動する。
-1. プロジェクトのルートから、以下のコマンドで`WebServer`ディレクトリに遷移します。
-```bash
-cd WebServer
-```
-2. 以下のコマンドを実行し、`FastAPI`サーバを起動します。
-```bash
-uvicorn webserver.main:app --host=0.0.0.0
-```
-以下のような表示がでれば完了です。
-
-![Alt text](/DocsImgs/FastAPI-demo.jpg)
-
-## 2. 【iOS】iOS側アプリの準備
-1. Xcodeで以下のプロジェクトを読み込みます。
-```bash
-./MotionInputer-iOS/MotionInputer-iOS.xcodeproj
-```
-
-2. iPhoneをMacと接続し、Xcodeのビルド設定を以下の画像のように変更します。
-* 接続しているデバイスの名前を選択します。
-![Alt text](/DocsImgs/xcode-build-telop.jpg)
-
-3. 下記画像の赤丸部分をクリックし、アプリケーションのビルドと実行を行います。
-![Alt text](/DocsImgs/xcode-demo.jpg)
-* ビルドが完了すると、iPhone側にアプリがインストールされます。
-* iPhone用の開発者設定が有効になっていることを確認してください。
-
-4. アプリケーションが起動したら、Webサーバーに表示されているIPアドレスを入力します。
-* サーバーのコンソールには以下のように青字でアドレスが示されています。
-    ![Alt text](/DocsImgs/webserver-ip.jpg)
-    * この場合は`192.168.28.231:8000`
-* このアドレスをiOS側アプリのテキストフィールドに入力します。
-    ![Alt text](/DocsImgs/ios-app-ip.jpg)
-
-
-##  3. 【Unity側】クライアントの実行
-1. Unity Hubより以下のプロジェクトを読み込んでください。
+### 2. Unityプロジェクトの読み込み
+Unity Hubから以下のUnityプロジェクトを読み込んで下さい。
 ```
 ./PLATEAU-run Client
 ```
-2. デモ用シーンは以下のディレクトりにあります。Unity側から選択して読み込んでください。
+
+# 試験版の実行
+## 1. モーション入力用Webサーバの起動
+以下のコマンドを実行し、モーション入力用Webサーバを起動して下さい。
+```bash
+uvicorn WebServer.webserver.main:app --host=0.0.0.0
 ```
-Assets/Scenes/SampleScene
+- 起動後、以下のようなメッセージが表示されれば起動完了です。
+![Alt text](DocsImgs/WebServerSuccess.png)
+
+## 2. リモコンアプリの起動
+### 2-1. ユーザー情報の入力
+リモコンアプリの以下の入力欄に、`1. モーション入力用Webサーバの起動`で示した赤枠部分の情報を入力して下さい。
+- オレンジ部分：`Your Server IP address`に表示されているIPアドレス
+- 緑部分：`Your UserID`に表示されているユーザーID
+- 例
+    - `Your Server IP address`：`127.0.0.1`
+    - `Your UserID`：`TESTUSER1`
+    - ![Alt text](DocsImgs\iOS-APP-Input.png)
+
+###  2-2. アプリとサーバーの接続
+`Start Monitoring`ボタンを押下し、リモコンアプリとモーション入力用Webサーバを接続して下さい。
+
+接続後、デバイスを振ると以下のようにインジケーターが赤色に変化することを確認して下さい。
+![Alt text](DocsImgs/iOS-APP-Active.png)
+
+ - もし押下後に以下の通知が表示された場合は、`Cancel`を押下してもう一度入力しなおすか、`Retry`を押下し再接続を試みてください。
+ ![Alt text](DocsImgs\iOS-APP-Error.png)
+
+## 3. Unityクライアントの起動
+### 3-1. シーンの読み込み
+Unityエディタを起動し、以下のシーンを読み込んで下さい。
 ```
-3. シーンを読み込んだら、いつも通り実行ボタン（▶）を押してください。
+Assets/Scenes/PLATEAU-TEST.unity
+```
+### 3-2. クライアントの起動
+Unityエディタ上の再生ボタン（▶）を押下し、クライアントを起動して下さい。
+![Alt text](DocsImgs/Unity-Client-StartUp.png)
 
-# デモの操作方法
-以上の準備が完了したら、以下の方法でデモの操作ができます。
-* iOS側アプリの`start Motioning`ボタンを押すと、iOS側の加速度センサーが起動し、腕の振りの動きを検知します。
-    * センサー起動中は赤い表示に変わります。
-    * センサーを停止する場合は、`stop Motioning`ボタンを押してください。
-* 腕の振りの大きさに応じて、表示されているセンサーの値が変化します。
-
-* センサーの値が`1.5以上`になると、キャラクターは通常の歩行から加速状態になります。
-    * それ以下では通常の歩行に戻ります。
-
-
-以上でデモを実行する事ができます。
+# デモ動画
+<iframe width="1045" height="588" src="https://www.youtube.com/embed/BPK70Fz0FJ0" title="PLATEAU Walk＆Run" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
