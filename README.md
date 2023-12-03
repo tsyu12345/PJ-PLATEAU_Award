@@ -1,5 +1,5 @@
 # PLATEAU Walk & Run（試験版）
-[![Alt text](DocsImgs\YoutubeThumb.png)](https://www.youtube.com/watch?v=BPK70Fz0FJ0)
+[![Alt text](DocsImgs/YoutubeThumb.png)](https://www.youtube.com/watch?v=BPK70Fz0FJ0)
 # 開発環境
 本プロジェクトは以下の開発環境を使用し制作されました。
 ### リモコンアプリ
@@ -127,7 +127,7 @@ uvicorn WebServer.webserver.main:app --host=0.0.0.0
 - 例
     - `Your Server IP address`：`127.0.0.1`
     - `Your UserID`：`TESTUSER1`
-    - ![Alt text](DocsImgs\iOS-APP-Input.png)
+    - ![Alt text](DocsImgs/iOS-APP-Input.png)
 
 ###  2-2. アプリとサーバーの接続
 `Start Monitoring`ボタンを押下し、リモコンアプリとモーション入力用Webサーバを接続して下さい。
@@ -136,7 +136,7 @@ uvicorn WebServer.webserver.main:app --host=0.0.0.0
 ![Alt text](DocsImgs/iOS-APP-Active.png)
 
  - もし押下後に以下の通知が表示された場合は、`Cancel`を押下してもう一度入力しなおすか、`Retry`を押下し再接続を試みてください。
- ![Alt text](DocsImgs\iOS-APP-Error.png)
+ ![Alt text](DocsImgs/iOS-APP-Error.png)
 
 ## 3. Unityクライアントの起動
 ### 3-1. シーンの読み込み
