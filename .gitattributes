@@ -4,3 +4,4 @@ PLATEAU-run[[:space:]]Client/Assets/Photon/** filter=lfs diff=lfs merge=lfs -tex
 PLATEAU-run[[:space:]]Client/Assets/Photon.meta filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/Scenes/PLATEAU-TEST/** filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/Noto_Sans_JP/** filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/Audios/** filter=lfs diff=lfs merge=lfs -text
