@@ -23,3 +23,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poe.tasks]
 dev.shell = "uvicorn WebServer.webserver.main:app --reload"
 start.shell = "uvicorn WebServer.webserver.main:app --host=0.0.0.0"
+pushLFS.shell = "powershell.exe ./PushLFS.ps1 -FilesToZip "./PLATEAU-run Client/Assets/Scenes/PLATEAU-TEST.unity", "PLATEAU-run Client\Assets\Scenes\PLATEAU-TEST.unity.meta" "PLATEAU-run Client\Assets\Scenes\Title.unity" "PLATEAU-run Client\Assets\Scenes\Title.unity.meta" "PLATEAU-run Client\Assets\Scenes\Lobby.unity" "PLATEAU-run Client\Assets\Scenes\Lobby.unity.meta" -DestinationDirectory ""G:\マイドライブ\MiyayuLab\smartcity\PLATEAU AWARD\DevelopLFS"""

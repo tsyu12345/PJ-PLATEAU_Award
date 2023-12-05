@@ -1,19 +1,14 @@
-# PowerShell スクリプト: 指定されたファイルをZIPにして特定のフォルダにコピー
+param(
+    [string[]]$FilesToZip,
+    [string]$DestinationDirectory
+)
 
-# ZIP化するファイルのパス
-$sourceFile = "PLATEAU-run Client\Assets\Scenes\PLATEAU-TEST.unity"
+# ZIPファイルの名前を生成（現在のタイムスタンプを使用）
+$timestamp = Get-Date -Format "yyyyMMddHHmmss"
+$zipFileName = "Archive_$timestamp.zip"
 
-# ZIPファイルを保存するパス
-$zipFile = "./temp/Scenes.zip"
+# 指定されたファイルをZIP形式で圧縮
+Compress-Archive -Path $FilesToZip -DestinationPath $zipFileName
 
-# ZIPファイルをコピーする先のフォルダ
-$destinationFolder = "G:\マイドライブ\MiyayuLab\smartcity\PLATEAU AWARD\LFS"
-
-# 指定されたファイルをZIPファイルに圧縮
-Compress-Archive -Path $sourceFile -DestinationPath $zipFile
-
-# ZIPファイルを指定されたフォルダにコピー
-Copy-Item -Path $zipFile -Destination $destinationFolder
-
-# 確認メッセージ（オプション）
-Write-Host "ファイルがZIP化され、指定されたフォルダにコピーされました。"
+# ZIPファイルを指定されたディレクトリに転送
+Move-Item -Path $zipFileName -Destination $DestinationDirectory
