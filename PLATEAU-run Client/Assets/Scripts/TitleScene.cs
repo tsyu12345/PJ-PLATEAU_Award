@@ -23,6 +23,6 @@ public class TitleScene : MonoBehaviour {
 
     private void moveLobbyScene() {
         Debug.Log("MoveLobbyScene");
-        //SceneManager.LoadScene("LobbyScene");
+        SceneManager.LoadScene("Lobby");
     }
 }
