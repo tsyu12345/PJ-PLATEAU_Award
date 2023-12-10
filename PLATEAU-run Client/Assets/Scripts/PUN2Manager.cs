@@ -13,6 +13,8 @@ namespace PUN2 {
         public delegate void OnEnterRoomEvent(int PlayerCount);
         public static event OnEnterRoomEvent OnEnterRoom;
         
+        public delegate void OnConnectedMasterEvent();
+        public static event OnConnectedMasterEvent OnConnectedMaster;
         void Start(){
             // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
             PhotonNetwork.ConnectUsingSettings();
@@ -25,6 +27,7 @@ namespace PUN2 {
             // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
             PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions(), TypedLobby.Default);
             Debug.Log("[Photon]マスターサーバーへの接続に成功しました");
+            OnConnectedMaster?.Invoke();
         }
 
         /// <summary>

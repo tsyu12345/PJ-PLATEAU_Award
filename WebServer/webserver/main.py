@@ -91,7 +91,7 @@ app.add_middleware(
 #Endpoints
 @app.websocket("/store/strength/{user_id}-{client_type}")
 async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
-    """【Device input】ユーザーデバイス入力を受け取る"""
+    """【Device input】ユーザーデバイス入力を受け取るWebSocket"""
     await websocket.accept()
     print(f'[/store/strength/{user_id}] accept : {websocket}')
     try:
@@ -109,6 +109,11 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         pass
 
 #TODO:ユーザー情報JSONファイルを生成するエンドポイントを追加
+@app.route("/register/user", methods=["POST"])
+async def register_user(user_id: str):
+    """【Server input】ユーザー情報を登録する"""
+    device.register(user_id)
+    
 
 
 #sub functions

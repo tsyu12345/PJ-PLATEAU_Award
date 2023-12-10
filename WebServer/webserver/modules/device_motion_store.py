@@ -6,6 +6,10 @@ class DeviceMotion:
 
     def __init__(self):
         self.__DATA_BASE: dict[str, float] = {}
+
+    def register(self, user_id: str):
+        """ユーザーを登録する"""
+        self.__DATA_BASE[user_id] = 0.0
     
     def renew(self, data: ActivityData):
         """デバイスの動きを更新する"""
