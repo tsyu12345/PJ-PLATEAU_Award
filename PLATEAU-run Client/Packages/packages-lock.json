@@ -8,7 +8,7 @@
       "url": "https://packages.unity.com"
     },
     "com.synesthesias.plateau-unity-sdk": {
-      "version": "https://github.com/Project-PLATEAU/PLATEAU-SDK-for-Unity.git#v2.2.0-alpha",
+      "version": "https://github.com/Project-PLATEAU/PLATEAU-SDK-for-Unity.git#v2.1.0-alpha",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -17,7 +17,7 @@
         "com.unity.formats.fbx": "4.1.2",
         "com.unity.test-framework": "1.1.31"
       },
-      "hash": "42abe0624830b6b68272548dd8014f94acba29e5"
+      "hash": "f430db699f485e9f3d9b97126c23dea2573373c0"
     },
     "com.unity.burst": {
       "version": "1.8.4",
@@ -148,7 +148,7 @@
       }
     },
     "com.unity.render-pipelines.universal": {
-      "version": "12.1.13",
+      "version": "12.1.12",
       "depth": 0,
       "source": "builtin",
       "dependencies": {

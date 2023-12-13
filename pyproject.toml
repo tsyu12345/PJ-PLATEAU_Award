@@ -14,6 +14,7 @@ websockets = "^12.0"
 ipget = "^0.0.3"
 public-ip = "^0.12"
 rich = "^13.7.0"
+deta = "^1.2.0"
 
 
 [build-system]
