@@ -13,6 +13,7 @@ public class LobbyScene : MonoBehaviour {
     [Header("UI Windows")]
     public GameObject connectUI;
     public GameObject courseSelectUI;
+    public GameObject loadingsUI;
 
 
     public 
@@ -26,6 +27,7 @@ public class LobbyScene : MonoBehaviour {
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        loadingsUI.SetActive(false);
     }
 
     // Update is called once per frame

@@ -32,8 +32,8 @@ public class CourseSelect : MonoBehaviour {
             EventTrigger.Entry courseEntry = new EventTrigger.Entry ();
             courseEntry.eventID = EventTriggerType.PointerClick;
             courseEntry.callback.AddListener((BaseEventData eventData)=>{
-                var courseScene = courseNames[courseId];
-                StartCoroutine(LoadCourse(courseId));
+                var courseScene = courseNames[courseId-1];
+                StartCoroutine(LoadCourse(courseScene));
             });
             courseTrigger.triggers.Add(courseEntry);
         }
@@ -44,11 +44,10 @@ public class CourseSelect : MonoBehaviour {
         Debug.Log("Select Course");
     }
 
-    private IEnumerator LoadCourse(int courseId) {
-        loadingUI.SetActive(true);
+    private IEnumerator LoadCourse(string sceneName) {
 
-        var course = courseNames[courseId];
-        var courseLoad = SceneManager.LoadSceneAsync(course);
+        loadingUI.SetActive(true);
+        var courseLoad = SceneManager.LoadSceneAsync(sceneName);
         while(!courseLoad.isDone) {
             yield return null;
         }
