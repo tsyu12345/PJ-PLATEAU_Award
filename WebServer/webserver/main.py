@@ -1,9 +1,8 @@
-from typing import Callable, Any
 import uvicorn
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from contextlib import asynccontextmanager
 import socket
 import json
 import uuid
@@ -18,8 +17,6 @@ from .Interfaces.utils import PrintColor
 class RegisteredData(BaseModel):
     nickname: str
     uuid: str
-
-
 
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
@@ -95,8 +92,7 @@ async def register_user(nickname: str):
     """【Server input】ユーザー情報を登録する"""
     user_id = str(uuid.uuid4())
     device.register(user_id)
-    return {"nickname": nickname, "uuid": user_id}
-    
+    return JSONResponse({"nickname": nickname, "uuid": user_id})
 
 
 #sub functions
