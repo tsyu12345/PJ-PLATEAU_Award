@@ -2,18 +2,23 @@ from typing import Callable, Any
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from contextlib import asynccontextmanager
 import socket
 import json
-import random
-from rich.console import Console
-from rich.panel import Panel
+import uuid
+
 
 from .modules.device_motion_store import DeviceMotion
 from .modules.ServerApp import AppConfig
 from .Interfaces.activity_interface import ActivityData
 from .Interfaces.client_types import ClientType
 from .Interfaces.utils import PrintColor
+
+
+class RegisteredData(BaseModel):
+    nickname: str
+    uuid: str
 
 
 event_handlers: dict[str, list[Callable]] = {}
@@ -75,9 +80,7 @@ async def deploy_user_id() -> None:
         json.dump(json_data, f, indent=4)
 
 
-#Add event handlers
-addEventListener("startup", deploy_publicIP)
-addEventListener("startup", deploy_user_id)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -89,7 +92,7 @@ app.add_middleware(
 
 
 #Endpoints
-@app.websocket("/store/strength/{user_id}-{client_type}")
+@app.websocket("/store/strength/{client_type}")
 async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
     """【Device input】ユーザーデバイス入力を受け取るWebSocket"""
     await websocket.accept()
@@ -108,11 +111,12 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
     except WebSocketDisconnect:
         pass
 
-#TODO:ユーザー情報JSONファイルを生成するエンドポイントを追加
-@app.route("/register/user", methods=["POST"])
-async def register_user(user_id: str):
+@app.route("/register/user/{nickname}", methods=["POST"])
+async def register_user(nickname: str):
     """【Server input】ユーザー情報を登録する"""
+    user_id = str(uuid.uuid4())
     device.register(user_id)
+    return {"nickname": nickname, "uuid": user_id}
     
 
 

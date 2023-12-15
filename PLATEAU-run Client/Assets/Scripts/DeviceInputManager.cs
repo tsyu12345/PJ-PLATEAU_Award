@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using WebSocketSharp;
 using Newtonsoft.Json;
 
@@ -15,25 +16,19 @@ namespace DeviceManager {
     /// </summary>
     public class DeviceInputManager : MonoBehaviour {
         
-        
         [Header("サーバー設定")]
-        public string ServerAdressFile = "Assets/temp/ipconfig.txt";
-        public string UserSettingFile = "Assets/Config/TESTUSER1.json";
-        public string userId = "";
-
+        public string APIServer = "https://plateau-walk-and-run-apiserver.onrender.com"
         public string clientType = "Unity";
-
+        public string userId = "UnityUser";
+        public string nickname = "UnityUser";
         public delegate void CleanedDataHandler(string data);
         public event CleanedDataHandler OnCleanedDataReceived;
         private static readonly Queue<Action> _mainThreadActions = new Queue<Action>();
         private WebSocket ws;
 
         void Start() {
-
-            GetUserProfile();
-            var endpoint = $"/store/strength/{userId}-{clientType}";
-            Connect(endpoint);
             
+            RegisterUser(nickname);
             ws.OnOpen += (sender, ev) => {
 
             };
@@ -77,43 +72,42 @@ namespace DeviceManager {
         }
 
 
-        public void AddEventListener(CleanedDataHandler listener) {
-            OnCleanedDataReceived += listener;
-        }
-
-        // イベントリスナーを削除するメソッド
-        public void RemoveEventListener(CleanedDataHandler listener) {
-            OnCleanedDataReceived -= listener;
-        }
-
         public void DisConnect() {
             ws.Close();
         }
 
-        /// <summary>
-        /// ユーザーのプロフィールのJSONを読み、userIdを取得する
-        /// </summary>
-        private void GetUserProfile() {
-            var json = File.ReadAllText(UserSettingFile);
-            var user = JsonConvert.DeserializeObject<User>(json);
-            userId = user.userId;
+        public void RegisterUser(string NickName) {
+            var endPoint = $"/register/user/{NickName}";
+            StartCoroutine(PostRequest(APIServer + endPoint, (response) => {
+                var responseBody = JsonConvert.DeserializeObject<User>(response);
+                userId = responseBody.uuid;
+                Connect();
+            }));
+        }
+
+        IEnumerator PostRequest(string uri, Action<string> callback) {
+            var request = new UnityWebRequest(uri, "POST");
+            
+            yield return request.SendWebRequest();
+            if (request.isNetworkError || request.isHttpError) {
+                Debug.LogError(request.error);
+            } else {
+                callback(request.downloadHandler.text);
+            }
         }
 
 
-        private void Connect(string endpoint) {
-            var ipconfig = File.ReadAllText(ServerAdressFile);
-            var ServerAddress = "ws://" + ipconfig.Trim();
-            var uri = ServerAddress + $"{endpoint}";
-            Debug.Log("Start Request " + uri);
-            ws = new WebSocket(uri);
+        private void Connect() {
+            var endpoint = $"/store/strength/{userId}-{clientType}";
+            ws = new WebSocket(APIServer + endpoint);
             ws.Connect();
         }
     }
 
     [System.Serializable]
     public class User {
-        public string userName;
-        public string userId;
+        public string nickname;
+        public string uuid;
     }
 }
 
