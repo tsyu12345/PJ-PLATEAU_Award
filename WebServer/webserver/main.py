@@ -8,7 +8,6 @@ import socket
 import json
 import uuid
 
-
 from .modules.device_motion_store import DeviceMotion
 from .modules.ServerApp import AppConfig
 from .Interfaces.activity_interface import ActivityData
@@ -21,27 +20,10 @@ class RegisteredData(BaseModel):
     uuid: str
 
 
-event_handlers: dict[str, list[Callable]] = {}
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Code to execute at startup
-    callbacks = event_handlers['startup']
-    for callback in callbacks:
-        await callback()
-    yield
-    # Code to execute at shutdown
-
-def addEventListener(event: str, callback: Callable):
-    """イベントリスナーを追加する"""
-    if event not in event_handlers:
-        event_handlers[event] = []
-    event_handlers[event].append(callback)
-    
 
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
-app = FastAPI(lifespan=lifespan) #FastAPIインスタンスを生成
+app = FastAPI() #FastAPIインスタンスを生成
 config = AppConfig("server_config.json") #設定ファイルを読み込む
 
 async def deploy_publicIP() -> None:
@@ -87,29 +69,26 @@ app.add_middleware(
     allow_origins=config.cors.origins,
     allow_credentials=config.cors.allow_credentials,
     allow_methods=config.cors.allow_methods,
-    allow_headers=config.cors.allow_headers,
-)
+    allow_headers=config.cors.allow_headers,)
 
 
-#Endpoints
+
 @app.websocket("/store/strength/{client_type}")
 async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
     """【Device input】ユーザーデバイス入力を受け取るWebSocket"""
     await websocket.accept()
-    print(f'[/store/strength/{user_id}] accept : {websocket}')
     try:
         while True:
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
-                #print(f'sending data to Unity: {data.strength}')
                 await send_data_to_Unity(websocket, data)
             else:
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
                 device.renew(data)
-                #print(f'[device Input {client_type}] {data.strength}')
     except WebSocketDisconnect:
         pass
+
 
 @app.route("/register/user/{nickname}", methods=["POST"])
 async def register_user(nickname: str):
