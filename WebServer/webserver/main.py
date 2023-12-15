@@ -87,12 +87,12 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         pass
 
 
-@app.route("/register/user/{nickname}", methods=["POST"])
+@app.route("/register/user/{nickname}", methods=["GET"])
 async def register_user(nickname: str):
     """【Server input】ユーザー情報を登録する"""
     user_id = str(uuid.uuid4())
     device.register(user_id)
-    return JSONResponse({"nickname": nickname, "uuid": user_id})
+    return {"nickname": nickname, "uuid": user_id}
 
 
 #sub functions
