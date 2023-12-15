@@ -7,3 +7,6 @@ PLATEAU-run[[:space:]]Client/Assets/Noto_Sans_JP/** filter=lfs diff=lfs merge=lf
 PLATEAU-run[[:space:]]Client/Assets/Audios/** filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/Scenes/Lobby.unity filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/Scenes/Lobby.unity.meta filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/EasyRoads3D/** filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/Scenes/** filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/StreamingAssets/** filter=lfs diff=lfs merge=lfs -text
