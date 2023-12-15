@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Title.unity
     guid: c2e9f83b0d5e5994f98d1ab00caf4b2d
+  - enabled: 1
+    path: Assets/Scenes/PLATEAU-TEST.unity
+    guid: 4d97178a21544ec4ea710e7f5cfd69f3
   m_configObjects: {}

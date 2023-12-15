@@ -18,6 +18,7 @@ public class TitleScene : MonoBehaviour {
 
     // ロードの進捗状況を管理するための変数
     private AsyncOperation async;
+    private Slider _slider;
 
     // ロードを開始するメソッド
     public void StartLoad() {
@@ -51,6 +52,7 @@ public class TitleScene : MonoBehaviour {
 
         // ロードが完了するまで待機する
         while (!async.isDone) {
+            _slider.value = async.progress;
             yield return null;
         }
 

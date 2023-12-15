@@ -11,6 +11,8 @@ public class CourseSelect : MonoBehaviour {
     public GameObject[] Courses;
     public string[] courseNames;
     public GameObject loadingUI;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private AudioSource _audioSource;
     void Start() {
         EventTrigger trigger = closeButton.GetComponent<EventTrigger> ();
         EventTrigger.Entry entry = new EventTrigger.Entry ();
@@ -49,9 +51,11 @@ public class CourseSelect : MonoBehaviour {
         loadingUI.SetActive(true);
         var courseLoad = SceneManager.LoadSceneAsync(sceneName);
         while(!courseLoad.isDone) {
+            _slider.value = courseLoad.progress;
             yield return null;
         }
         loadingUI.SetActive(false);
+        _audioSource.Stop();
     }
 
 }

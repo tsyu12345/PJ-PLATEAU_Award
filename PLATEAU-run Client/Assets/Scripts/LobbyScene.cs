@@ -14,13 +14,23 @@ public class LobbyScene : MonoBehaviour {
     public GameObject connectUI;
     public GameObject courseSelectUI;
     public GameObject loadingsUI;
+    public static bool isPractice = false;
+    public static AudioSource audioSource;
 
-
-    public 
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         connectButton.onClick.AddListener(openConnectUI);
-        onlineButton.onClick.AddListener(openCourseSelectUI);
-        practiceButton.onClick.AddListener(openCourseSelectUI);
+        onlineButton.onClick.AddListener(()=>{
+            isPractice = false;
+            DontDestroyOnLoad(this.gameObject);
+            openCourseSelectUI();
+
+        });
+        practiceButton.onClick.AddListener(()=>{
+            isPractice = true;
+            DontDestroyOnLoad(this.gameObject);
+            openCourseSelectUI();
+        });
 
         connectUI.SetActive(false);
         courseSelectUI.SetActive(false);
@@ -30,10 +40,7 @@ public class LobbyScene : MonoBehaviour {
         loadingsUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
+
 
 
     /// <summary>

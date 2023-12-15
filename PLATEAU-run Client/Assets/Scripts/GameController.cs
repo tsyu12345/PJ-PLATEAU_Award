@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 using PUN2;
@@ -31,15 +32,20 @@ namespace GameManager {
         public string waitingText = "Waiting for other players";
 
         [Header("Game Objects")]
+        public AudioClip startSE;
         [SerializeField]
         private GameObject loadingUI;
 
         private float dotTimer = 0.0f;
         private int dotCount = 0;
         private int PlayerCount = 0;
+        private AudioSource audioSource;
+
 
 
         void Start() {
+            audioSource = GetComponent<AudioSource>();
+            GetLobbySelection();
             if(isMultiplayerMode && isOfflineMode) {
                 Debug.LogError("[GameController]MultiplayerMode and OfflineMode cannot be true at the same time");
             }
@@ -75,17 +81,32 @@ namespace GameManager {
 
             if (countdownTime < 0) {
                 CountDownUI.text = "GO!";
+                //効果音を鳴らす
+                audioSource.PlayOneShot(startSE);
                 // カウントダウンが0になったらGO!
                 countdownStarted = false;
                 StartCoroutine(HideCountdownUI());
                 gameStarted = true;
                 OnGameStart?.Invoke();
+                //BGMを設定
+                
             }
         }
 
         public void resetCountDownTimer() {
             countdownTime = 5.0f;
             countdownStarted = false;
+        }
+
+
+        private void GetLobbySelection() {
+            isOfflineMode = LobbyScene.isPractice;
+            if(isOfflineMode) {
+                isMultiplayerMode = false;
+            } else {
+                isMultiplayerMode = true;
+            }
+            LobbyScene.audioSource.Stop();
         }
 
 

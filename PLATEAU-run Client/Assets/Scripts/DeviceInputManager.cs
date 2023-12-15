@@ -17,7 +17,7 @@ namespace DeviceManager {
     public class DeviceInputManager : MonoBehaviour {
         
         [Header("サーバー設定")]
-        public string APIServer = "https://plateau-walk-and-run-apiserver.onrender.com"
+        public string APIServer = "https://plateau-walk-and-run-apiserver.onrender.com";
         public string clientType = "Unity";
         public string userId = "UnityUser";
         public string nickname = "UnityUser";
@@ -71,7 +71,16 @@ namespace DeviceManager {
             DisConnect();
         }
 
+        public void AddEventListener(CleanedDataHandler listener) {
+            OnCleanedDataReceived += listener;
+        }
 
+        // イベントリスナーを削除するメソッド
+        public void RemoveEventListener(CleanedDataHandler listener) {
+            OnCleanedDataReceived -= listener;
+        }
+
+        
         public void DisConnect() {
             ws.Close();
         }
