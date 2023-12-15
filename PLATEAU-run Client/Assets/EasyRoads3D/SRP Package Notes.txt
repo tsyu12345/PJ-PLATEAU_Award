@@ -1,11 +1,3 @@
-Imported URP version: 12.1.6 and more recent
-
-Demo Scene Steps:
-
-1) Upgrade built-in materials / shaders to URP
-	Window > Rendering > Render Pipeline Converter  
-
-2) Select the Directional Light object, this should update the lighting if necessary
-
-3) Terrain, when the terrain is not updated a new terrain material can be assigned using the URP or HDRP TerrainLit shader
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:01e53814b9437ba57203b780bfd0cda800a9ccc6fc191d4546889f705941447e
+size 384

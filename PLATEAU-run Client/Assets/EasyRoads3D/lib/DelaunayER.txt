@@ -1,10 +1,3 @@
-Triangulation routines for roads and side objects are all written from the ground up. 
-For irregular shaped meshes delaunay triangulation is used as a base.
-The Internet has a wealth of information related to this including free to use libraries. 
-Below are credits for the approach used in EasyRoads3D.
-
-Credit to Paul Bourke (paul.bourke@uwa.edu.au) for the original Fortran 77 Program.
-Check out: http://local.wasp.uwa.edu.au/~pbourke/ http://paulbourke.net/papers/triangulate/
-You can use this code however you like providing the above credits remain in tact.
-First converted to a standalone C# 2.0 library by Morten Nielsen (www.iter.dk)
-Performance enhanced C# 2.0 library by Christian Stelzl Sep. 2008
+version https://git-lfs.github.com/spec/v1
+oid sha256:efa20f848038f6152a1b31bc6e0f776ca8c05f51e0e369bb382203ee82899eb2
+size 719
