@@ -174,6 +174,8 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         if(isGoal == true) { return; }
         InputData data = JsonConvert.DeserializeObject<InputData>(json);
         Strength = data.strength;
+        float speed = CalcSpeed(Strength);
+        /*
         if(Strength >= SplitModeThreshold) {
             Splint();
         } else if(Strength == 0.0f) {
@@ -181,12 +183,24 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         } else {
             Walk();
         }
+        */
     
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {
             //Debug.Log("Current Speed" + CurrentSpeed);
             agent.speed = CurrentSpeed;
         });   
+    }
+
+
+    /// <summary>
+    /// y = 2xの関数でスピードを計算する
+    /// 
+    /// </summary>
+    /// <param name="strength"></param>
+    /// <returns></returns>
+    private static float CalcSpeed(float strength) {
+        return 2 * strength;
     }
 
 

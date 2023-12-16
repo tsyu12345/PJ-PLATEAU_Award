@@ -11,3 +11,5 @@ PLATEAU-run[[:space:]]Client/Assets/EasyRoads3D/** filter=lfs diff=lfs merge=lfs
 PLATEAU-run[[:space:]]Client/Assets/Scenes/** filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/StreamingAssets/** filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/StarterAssets/** filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/Scenes/Scenes.zip filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/StreamingAssets.zip filter=lfs diff=lfs merge=lfs -text
