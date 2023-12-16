@@ -17,9 +17,10 @@ namespace DeviceManager {
     public class DeviceInputManager : MonoBehaviour {
         
         [Header("サーバー設定")]
-        public string APIServer = "https://plateau-walk-and-run-apiserver.onrender.com";
+        public string APIServer = $"https://plateau-walk-and-run-apiserver.onrender.com";
+        public string APIWS = "ws://192.168.11.48:8000";
         public string clientType = "Unity";
-        public string userId = "UnityUser";
+        public string userId = "TESTUSER1";
         public string nickname = "UnityUser";
         public delegate void CleanedDataHandler(string data);
         public event CleanedDataHandler OnCleanedDataReceived;
@@ -28,43 +29,19 @@ namespace DeviceManager {
 
         void Start() {
             
-            RegisterUser(nickname);
-            ws.OnOpen += (sender, ev) => {
-
-            };
-
-            ws.OnMessage += (sender, ev) => {
-                try {
-                    //データの整形
-                    string cleanedData = ev.Data.Trim('"');
-                    cleanedData = cleanedData.Replace("\\\"", "\"");
-                
-                   // メインスレッドで実行するアクションをキューに追加
-                    _mainThreadActions.Enqueue(() => {
-                        OnCleanedDataReceived?.Invoke(cleanedData);
-                    });
-                } catch (Exception e) {
-                    Debug.LogError($"Error: {e}");
-                }
-
-            };
-
-            ws.OnError += (sender, e) => {
-                Debug.Log("WebSocket Error Message: " + e.Message);
-            };
-
-            ws.OnClose += (sender, e) => {
-                Debug.Log("WebSocket Close");
-            };
+            //egisterUser(nickname);
+            Connect();
         }
 
         void Update() {
+            /*
             while (_mainThreadActions.Count > 0) {
                 var action = _mainThreadActions.Dequeue();
                 if(action != null) { 
                     action.Invoke();
                 }
             }
+            */
         }
 
         void OnApplicationQuit() {
@@ -80,36 +57,67 @@ namespace DeviceManager {
             OnCleanedDataReceived -= listener;
         }
 
-        
+
         public void DisConnect() {
             ws.Close();
         }
 
         public void RegisterUser(string NickName) {
             var endPoint = $"/register/user/{NickName}";
-            StartCoroutine(PostRequest(APIServer + endPoint, (response) => {
+            StartCoroutine(GetRequest(APIServer + endPoint, (response) => {
                 var responseBody = JsonConvert.DeserializeObject<User>(response);
                 userId = responseBody.uuid;
+                Debug.Log($"userId:{userId}");
                 Connect();
             }));
         }
 
-        IEnumerator PostRequest(string uri, Action<string> callback) {
-            var request = new UnityWebRequest(uri, "POST");
-            
-            yield return request.SendWebRequest();
-            if (request.isNetworkError || request.isHttpError) {
-                Debug.LogError(request.error);
-            } else {
-                callback(request.downloadHandler.text);
+        IEnumerator GetRequest(string uri, Action<string> callback) {
+            using (var req = UnityWebRequest.Get(uri)) {
+            yield return req.SendWebRequest();
+                if (req.isNetworkError) {
+                    Debug.LogError(req.error);
+                } else if (req.isHttpError) {
+                    Debug.LogError(req.error);
+                } else {
+                    Debug.Log(req);
+                    callback(req.downloadHandler.text);
+                } 
             }
         }
 
 
         private void Connect() {
-            var endpoint = $"/store/strength/{userId}-{clientType}";
-            ws = new WebSocket(APIServer + endpoint);
+            var endpoint = $"/store/strength/{clientType}/{userId}";
+            ws = new WebSocket(APIWS + endpoint);
             ws.Connect();
+            ws.OnOpen += (sender, ev) => {
+
+            };
+
+            ws.OnMessage += (sender, ev) => {
+                try {
+                    //データの整形
+                    string cleanedData = ev.Data.Trim('"');
+                    cleanedData = cleanedData.Replace("\\\"", "\"");
+                
+                   // メインスレッドで実行するアクションをキューに追加
+                    //_mainThreadActions.Enqueue(() => {
+                    OnCleanedDataReceived?.Invoke(cleanedData);
+                    //});
+                } catch (Exception e) {
+                    Debug.LogError($"Error: {e}");
+                }
+
+            };
+
+            ws.OnError += (sender, e) => {
+                Debug.Log("WebSocket Error Message: " + e.Message);
+            };
+
+            ws.OnClose += (sender, e) => {
+                Debug.Log("WebSocket Close");
+            };
         }
     }
 

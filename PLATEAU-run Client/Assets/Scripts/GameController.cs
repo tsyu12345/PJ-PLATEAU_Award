@@ -33,8 +33,14 @@ namespace GameManager {
 
         [Header("Game Objects")]
         public AudioClip startSE;
+        public AudioClip mainBGM;
+        public AudioClip WaitingBGM;
+        public GameObject PlayerUI;
+        public TextMeshProUGUI PowerMeter;
+        public TextMeshProUGUI SpeedMeter;
         [SerializeField]
         private GameObject loadingUI;
+
 
         private float dotTimer = 0.0f;
         private int dotCount = 0;
@@ -45,6 +51,9 @@ namespace GameManager {
 
         void Start() {
             audioSource = GetComponent<AudioSource>();
+            audioSource.clip = WaitingBGM;
+            audioSource.Play();
+            audioSource.loop = true;
             GetLobbySelection();
             if(isMultiplayerMode && isOfflineMode) {
                 Debug.LogError("[GameController]MultiplayerMode and OfflineMode cannot be true at the same time");
@@ -89,6 +98,9 @@ namespace GameManager {
                 gameStarted = true;
                 OnGameStart?.Invoke();
                 //BGMを設定
+                audioSource.clip = mainBGM;
+                audioSource.Play();
+                audioSource.loop = true;
                 
             }
         }
@@ -106,7 +118,9 @@ namespace GameManager {
             } else {
                 isMultiplayerMode = true;
             }
-            LobbyScene.audioSource.Stop();
+            if(LobbyScene.audioSource != null) {
+                LobbyScene.audioSource.Stop();
+            }
         }
 
 

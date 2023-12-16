@@ -140,14 +140,12 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         walking = true;
         running = false;
         agent.isStopped = false;
-        CurrentSpeed = 3.0f;
     }
 
     private void Splint() {
         walking = false;
         running = true;
         agent.isStopped = false;
-        CurrentSpeed = 5.0f;
     }
 
     private void ChangeAnimation() {
@@ -174,21 +172,24 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         if(isGoal == true) { return; }
         InputData data = JsonConvert.DeserializeObject<InputData>(json);
         Strength = data.strength;
-        float speed = CalcSpeed(Strength);
-        /*
-        if(Strength >= SplitModeThreshold) {
-            Splint();
-        } else if(Strength == 0.0f) {
-            Wait();
-        } else {
-            Walk();
-        }
-        */
+        CurrentSpeed = CalcSpeed(Strength);
+        // キューには最新の要素のみを追加
+        
+        _mainThreadActions.Clear();
+        
     
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {
-            //Debug.Log("Current Speed" + CurrentSpeed);
+            if(CurrentSpeed > 0 && CurrentSpeed < 3) {
+                Walk();
+            } else if(CurrentSpeed >= 5) {
+                Splint();
+            } else {
+                Wait();
+            }
             agent.speed = CurrentSpeed;
+            gameManager.PowerMeter.text = string.Format("{0:F2} p", Strength);
+            gameManager.SpeedMeter.text = string.Format("{0:F1}", CurrentSpeed);
         });   
     }
 
@@ -200,7 +201,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     /// <param name="strength"></param>
     /// <returns></returns>
     private static float CalcSpeed(float strength) {
-        return 2 * strength;
+        return 2.1f * strength;
     }
 
 

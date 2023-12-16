@@ -1,6 +1,8 @@
+from typing import Callable
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import socket
@@ -18,9 +20,26 @@ class RegisteredData(BaseModel):
     nickname: str
     uuid: str
 
+event_handlers: dict[str, list[Callable]] = {}
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Code to execute at startup
+    callbacks = event_handlers['startup']
+    for callback in callbacks:
+        await callback()
+    yield
+    # Code to execute at shutdown
+
+def addEventListener(event: str, callback: Callable):
+    """イベントリスナーを追加する"""
+    if event not in event_handlers:
+        event_handlers[event] = []
+    event_handlers[event].append(callback)
+
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
-app = FastAPI() #FastAPIインスタンスを生成
+app = FastAPI(lifespan=lifespan) #FastAPIインスタンスを生成
 config = AppConfig("server_config.json") #設定ファイルを読み込む
 
 async def deploy_publicIP() -> None:
@@ -59,7 +78,9 @@ async def deploy_user_id() -> None:
         json.dump(json_data, f, indent=4)
 
 
-
+#Add event handlers
+addEventListener("startup", deploy_publicIP)
+addEventListener("startup", deploy_user_id)
 
 app.add_middleware(
     CORSMiddleware,
@@ -70,7 +91,7 @@ app.add_middleware(
 
 
 
-@app.websocket("/store/strength/{client_type}")
+@app.websocket("/store/strength/{client_type}/{user_id}")
 async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
     """【Device input】ユーザーデバイス入力を受け取るWebSocket"""
     await websocket.accept()
