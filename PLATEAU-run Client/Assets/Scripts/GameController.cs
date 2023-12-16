@@ -20,6 +20,7 @@ namespace GameManager {
         [Header("Game Situations")]
         public bool countdownStarted = false;
         public bool gameStarted = false;
+        public bool nearGoal = false;
         public bool gameFinished = false;
         public bool waitingPlayers = false;
         public bool loadingRoom = false;
@@ -35,6 +36,8 @@ namespace GameManager {
         public AudioClip startSE;
         public AudioClip mainBGM;
         public AudioClip WaitingBGM;
+        public AudioClip NearGoalBGM;
+        public AudioClip GoalBGM;
         public GameObject PlayerUI;
         public TextMeshProUGUI PowerMeter;
         public TextMeshProUGUI SpeedMeter;
@@ -46,10 +49,15 @@ namespace GameManager {
         private int dotCount = 0;
         private int PlayerCount = 0;
         private AudioSource audioSource;
+        public float startTime;
+
+        public GameObject GoalUI;
+        public TextMeshProUGUI GoalText;
 
 
 
         void Start() {
+            GoalUI.SetActive(false);
             audioSource = GetComponent<AudioSource>();
             audioSource.clip = WaitingBGM;
             audioSource.Play();
@@ -82,6 +90,16 @@ namespace GameManager {
             if(waitingPlayers) {
                 UpdateWaitingText();
             }
+            if (nearGoal && audioSource.clip != NearGoalBGM) {
+                ChangeBGM(NearGoalBGM, true);
+            }
+            if(gameFinished) {
+                if(audioSource.clip != GoalBGM) {
+                    ChangeBGM(GoalBGM, false);
+                }
+                OnFinishGame();
+            }
+            
         }
 
         public void CountDown() {
@@ -101,6 +119,7 @@ namespace GameManager {
                 audioSource.clip = mainBGM;
                 audioSource.Play();
                 audioSource.loop = true;
+                startTime = Time.time;
                 
             }
         }
@@ -109,6 +128,7 @@ namespace GameManager {
             countdownTime = 5.0f;
             countdownStarted = false;
         }
+
 
 
         private void GetLobbySelection() {
@@ -121,6 +141,13 @@ namespace GameManager {
             if(LobbyScene.audioSource != null) {
                 LobbyScene.audioSource.Stop();
             }
+        }
+
+
+        private void OnFinishGame() {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            //PlayerUI.SetActive(false);
         }
 
 
@@ -188,6 +215,15 @@ namespace GameManager {
             yield return new WaitForSeconds(1); // 1秒待機
             CountDownUI.text = ""; // UIを非表示にする
             CountDownUI.gameObject.SetActive(false);
+        }
+
+        private void ChangeBGM(AudioClip newClip, bool loop) {
+            if (audioSource.clip != newClip) {
+                audioSource.Stop();
+                audioSource.clip = newClip;
+                audioSource.loop = loop;
+                audioSource.Play();
+            }
         }
 
     }

@@ -91,7 +91,7 @@ app.add_middleware(
 
 
 
-@app.websocket("/store/strength/{client_type}/{user_id}")
+@app.websocket("/store/strength/{client_type}-{user_id}")
 async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str):
     """【Device input】ユーザーデバイス入力を受け取るWebSocket"""
     await websocket.accept()
@@ -99,7 +99,7 @@ async def receive_user_data(websocket: WebSocket, user_id: str, client_type: str
         while True:
             if client_type == ClientType.UNITY.value:
                 data = ActivityData(user_id=user_id, strength=device.get_strength(user_id))
-                await send_data_to_Unity(websocket, data)
+                await send_data_to_Unity(websocket, data, debug=True)
             else:
                 input: dict = await websocket.receive_json(mode="text")
                 data = ActivityData(**input)
@@ -120,7 +120,7 @@ async def register_user(nickname: str):
 async def send_data_to_Unity(client: WebSocket, data: ActivityData, debug: bool = False):
     """【Unity output】Unityクライアントにデータを送信する"""
     if debug:
-        data = ActivityData(user_id="test", strength=1.8)
+        data = ActivityData(user_id="test", strength=5.6)
 
     json_str = data.model_dump_json()
     await client.send_json(json_str, mode="text")

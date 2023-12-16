@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     public bool running = false;
     [Header("Settings")]
     public string NickName = "TEST Unit1"; // プレイヤー名
-    public float SplitModeThreshold = 1.5f;
     public delegate void GoalEvent(); //TODO:ゴールした者のデータオブジェクトを使す
     private float Strength;
     private DeviceInputManager deviceInputManager;
@@ -33,13 +32,12 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private Animator _animator;
     private Queue<Action> _mainThreadActions;
     private bool loaded = false;
-    private bool isGoal = false;
+    public bool isGoal = false;
     private static GoalEvent onGoal;
+    public float endTime;
 
-    private TextMeshProUGUI GoalMessage;
+
     
-
-
     void Update() {
         //agent.SetDestination(destination.transform.position);
         if(loaded == false) { 
@@ -51,19 +49,32 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             return; 
         }
         agent.SetDestination(destination.transform.position);
-        if (agent.remainingDistance <= agent.stoppingDistance) {
+        if(agent.remainingDistance < 150) {
+            gameManager.nearGoal = true;
+        }
+        if (agent.remainingDistance <= agent.stoppingDistance && isGoal==false) {//ゴール時の処理
             //Debug.LogWarning("Goal");
             isGoal = true;
-            deviceInputManager.RemoveEventListener(OnDeviceInput);
-            GoalMessage.gameObject.SetActive(true);
-
             Wait();
+            deviceInputManager.RemoveEventListener(OnDeviceInput);
+
+            endTime = Time.time;
+            var GoalUI = gameManager.GoalUI;
+            GoalUI.SetActive(true);
+            var resultTime = endTime - gameManager.startTime;
+            var GoalTimeText = gameManager.GoalText;
+            var resultText = ConvertSecondsToMinutes((int)resultTime);
+            GoalTimeText.text = resultText;
+
+
+            gameManager.gameFinished = true;
             onGoal?.Invoke();
         } else {
             ChangeAnimation();
         }
         while (_mainThreadActions.Count > 0) {
             var action = _mainThreadActions.Dequeue();
+            Debug.LogWarning("Distance : " + agent.remainingDistance);
             if(action != null) { 
                 action.Invoke();
             }
@@ -112,8 +123,6 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         //子要素のカメラオブジェクトにAudioListenerを追加する
         playerCamera.AddComponent<AudioListener>();
 
-        GoalMessage = GameObject.Find("GoalMessage").GetComponent<TextMeshProUGUI>();
-        GoalMessage.gameObject.SetActive(false);
 
         loaded = true;
     }
@@ -148,6 +157,12 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         agent.isStopped = false;
     }
 
+    public static string ConvertSecondsToMinutes(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return string.Format("{0:D2}:{1:D2}", minutes, seconds);
+    }
+
     private void ChangeAnimation() {
         if(running) {
             _animator.SetBool("running", true);
@@ -173,10 +188,10 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         InputData data = JsonConvert.DeserializeObject<InputData>(json);
         Strength = data.strength;
         CurrentSpeed = CalcSpeed(Strength);
-        // キューには最新の要素のみを追加
-        
-        _mainThreadActions.Clear();
-        
+        //キューの要素が多くなりすぎないように、規定サイズでクリアする
+        if(_mainThreadActions.Count > 10) {
+            _mainThreadActions.Clear();
+        }
     
         //NOTE: メインスレッドで実行しないと速度が変わらない
         _mainThreadActions.Enqueue(() => {

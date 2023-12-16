@@ -88,7 +88,7 @@ namespace DeviceManager {
 
 
         private void Connect() {
-            var endpoint = $"/store/strength/{clientType}/{userId}";
+            var endpoint = $"/store/strength/{clientType}-{userId}";
             ws = new WebSocket(APIWS + endpoint);
             ws.Connect();
             ws.OnOpen += (sender, ev) => {
