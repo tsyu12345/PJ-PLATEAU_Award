@@ -44,10 +44,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c7364a7a091be479da4ed2538d0e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMultiplayerMode: 0
+  isOfflineMode: 0
   countdownStarted: 0
   gameStarted: 0
+  nearGoal: 0
   gameFinished: 0
   waitingPlayers: 0
+  loadingRoom: 0
   countdownTime: 5
   CountDownUI: {fileID: 0}
   waitingText: Waiting for other players
+  startSE: {fileID: 0}
+  mainBGM: {fileID: 0}
+  WaitingBGM: {fileID: 0}
+  NearGoalBGM: {fileID: 0}
+  GoalBGM: {fileID: 0}
+  PlayerUI: {fileID: 0}
+  PowerMeter: {fileID: 0}
+  SpeedMeter: {fileID: 0}
+  loadingUI: {fileID: 0}
+  startTime: 0
+  GoalUI: {fileID: 0}
+  GoalText: {fileID: 0}

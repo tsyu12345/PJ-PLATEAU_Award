@@ -7,6 +7,8 @@ TagManager:
   - CinemachineTarget
   - CourseCard
   - CloseWindow
+  - TimeResult
+  - GoalUI
   layers:
   - Default
   - TransparentFX

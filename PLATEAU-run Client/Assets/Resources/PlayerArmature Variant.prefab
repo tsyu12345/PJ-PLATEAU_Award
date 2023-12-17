@@ -301,6 +301,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505737925268446533, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 505737925268446535, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
       propertyPath: goal
       value: 
@@ -368,6 +372,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 505737925268446535, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
     - {fileID: 9092229409891725239, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
+    - {fileID: -537001095236614238, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
 --- !u!4 &4646947299990567879 stripped
 Transform:
@@ -379,6 +384,23 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4199799239038216683, guid: daf5f7592ef4be54081a3b8ddd647926, type: 3}
   m_PrefabInstance: {fileID: 8178038253736265878}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8899636901889182545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5419683434615644541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb75f773d774b46c0aec98dc6b3d3f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIServer: https://plateau-walk-and-run-apiserver.onrender.com
+  APIWS: ws://192.168.11.48:8000
+  clientType: Unity
+  userId: TESTUSER1
+  nickname: UnityUser
 --- !u!114 &1694924198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +419,8 @@ MonoBehaviour:
   walking: 0
   running: 0
   NickName: TEST Unit1
-  SplitModeThreshold: 1.5
+  isGoal: 0
+  endTime: 0
 --- !u!114 &4264501161871197654
 MonoBehaviour:
   m_ObjectHideFlags: 0
