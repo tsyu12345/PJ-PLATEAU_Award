@@ -47,8 +47,8 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-*.zip
 !/Assets/StreamingAssets.zip
+!/Assets/StreamingAssets/.PLATEAU/*.zip
 !/Assets/Scenes/Scenes.zip
 # Unity3D generated meta files
 *.pidb.meta

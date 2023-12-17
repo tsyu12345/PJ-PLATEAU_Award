@@ -13,3 +13,5 @@ PLATEAU-run[[:space:]]Client/StreamingAssets/** filter=lfs diff=lfs merge=lfs -t
 PLATEAU-run[[:space:]]Client/Assets/StarterAssets/** filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/Scenes/Scenes.zip filter=lfs diff=lfs merge=lfs -text
 PLATEAU-run[[:space:]]Client/Assets/StreamingAssets.zip filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/StreamingAssets/.PLATEAU/22203_numazu-shi_2021_citygml_4_op.zip filter=lfs diff=lfs merge=lfs -text
+PLATEAU-run[[:space:]]Client/Assets/StreamingAssets/.PLATEAU/22203_numazu-shi_2021_citygml_5_op.zip filter=lfs diff=lfs merge=lfs -text
