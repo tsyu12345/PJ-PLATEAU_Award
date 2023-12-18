@@ -10,7 +10,9 @@ public class CourseSelect : MonoBehaviour {
     public Image closeButton;
     public GameObject[] Courses;
     public string[] courseNames;
+    public Sprite[] CoursesImages;
     public GameObject loadingUI;
+    public Image MapImage;
     public Button SelectButton;
     public AudioClip cardSelectSE;
     public AudioClip selectBtnSE;
@@ -19,8 +21,6 @@ public class CourseSelect : MonoBehaviour {
     [SerializeField] private Slider _slider;
     private AudioSource _audioSource;
     void Start() {
-        nowSelectedCourseIdx = 0;
-        nowSelectCourseName = courseNames[0];
         EventTrigger trigger = closeButton.GetComponent<EventTrigger> ();
         _audioSource = GetComponent<AudioSource>();
 
@@ -53,21 +53,28 @@ public class CourseSelect : MonoBehaviour {
             EventTrigger courseTrigger = course.GetComponent<EventTrigger> ();
             EventTrigger.Entry courseEntry = new EventTrigger.Entry ();
             courseEntry.eventID = EventTriggerType.PointerClick;
+            int currentCourseId = courseId;
             courseEntry.callback.AddListener((BaseEventData eventData)=>{
-                Debug.LogWarning("Index" + courseId);
-                Debug.LogWarning("now" + nowSelectedCourseIdx);
+                Debug.Log("Click INdex" + currentCourseId);
+                DeleteAllCoursesOutLine();
+                //カード選択時のコールバック関数
                 _audioSource.PlayOneShot(cardSelectSE);
-                if(nowSelectedCourseIdx == courseId-1) {
-                    return;
-                }
-                nowSelectedCourseIdx = courseId-1;
-                nowSelectCourseName = courseNames[courseId-1];
-            });
-            courseTrigger.triggers.Add(courseEntry);
-            if(courseId == 0) {
                 Outline outline = course.gameObject.AddComponent<Outline>();
                 outline.effectColor = Color.red;
                 outline.effectDistance = new Vector2(3, -3);
+                nowSelectedCourseIdx = currentCourseId;
+                nowSelectCourseName = courseNames[currentCourseId];
+                MapImage.sprite = CoursesImages[currentCourseId];
+            });
+            courseTrigger.triggers.Add(courseEntry);
+        }
+    }
+
+
+    private void DeleteAllCoursesOutLine() {
+        for(int courseId = 0; courseId < Courses.Length; courseId++) {
+            if(Courses[courseId].GetComponent<Outline>() != null) {
+                Destroy(Courses[courseId].GetComponent<Outline>());
             }
         }
     }

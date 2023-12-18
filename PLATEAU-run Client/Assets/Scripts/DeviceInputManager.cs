@@ -89,7 +89,8 @@ namespace DeviceManager {
 
         private void Connect() {
             var endpoint = $"/store/strength/{clientType}-{userId}";
-            ws = new WebSocket(APIWS + endpoint);
+            var ip = GetServerIP();
+            ws = new WebSocket(ip + endpoint);
             ws.Connect();
             ws.OnOpen += (sender, ev) => {
 
@@ -118,6 +119,16 @@ namespace DeviceManager {
             ws.OnClose += (sender, e) => {
                 Debug.Log("WebSocket Close");
             };
+        }
+
+
+        /// <summary>
+        /// temp/ipconfig.txtからipアドレスを取得する
+        /// </summary>
+        private string GetServerIP() {
+            var ipconfig = File.ReadAllText("Assets/temp/ipconfig.txt");
+            var ServerAddress = "ws://" + ipconfig.Trim();
+            return ServerAddress;
         }
     }
 

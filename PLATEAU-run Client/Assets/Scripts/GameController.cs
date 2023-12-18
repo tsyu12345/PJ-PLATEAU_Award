@@ -84,7 +84,7 @@ namespace GameManager {
             }
 
             BackButton.onClick.AddListener(() => {
-                SceneManager.LoadScene("LobbyScene");
+                SceneManager.LoadScene("Lobby");
             });
         }
 
@@ -96,13 +96,11 @@ namespace GameManager {
             if(waitingPlayers) {
                 UpdateWaitingText();
             }
-            if (nearGoal && audioSource.clip != NearGoalBGM) {
+            if (nearGoal) {
                 ChangeBGM(NearGoalBGM, true);
             }
-            if(gameFinished) {
-                if(audioSource.clip != GoalBGM) {
-                    ChangeBGM(GoalBGM, false);
-                }
+            if(gameFinished) {            
+                ChangeBGM(GoalBGM, false);
                 OnFinishGame();
             }
             
