@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 using PUN2;
@@ -41,6 +42,7 @@ namespace GameManager {
         public GameObject PlayerUI;
         public TextMeshProUGUI PowerMeter;
         public TextMeshProUGUI SpeedMeter;
+        public Button BackButton;
         [SerializeField]
         private GameObject loadingUI;
 
@@ -80,6 +82,10 @@ namespace GameManager {
             } else if (isOfflineMode) {
                 offlineModeStart();
             }
+
+            BackButton.onClick.AddListener(() => {
+                SceneManager.LoadScene("LobbyScene");
+            });
         }
 
         void Update() {
