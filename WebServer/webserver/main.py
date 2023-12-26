@@ -39,7 +39,7 @@ def addEventListener(event: str, callback: Callable):
 
 
 device = DeviceMotion() #ユーザーごとにデバイスからの入力を保持するインスタンスを生成
-app = FastAPI(lifespan=lifespan) #FastAPIインスタンスを生成
+app = FastAPI() #FastAPIインスタンスを生成
 config = AppConfig("server_config.json") #設定ファイルを読み込む
 
 async def deploy_publicIP() -> None:
@@ -79,8 +79,8 @@ async def deploy_user_id() -> None:
 
 
 #Add event handlers
-addEventListener("startup", deploy_publicIP)
-addEventListener("startup", deploy_user_id)
+#addEventListener("startup", deploy_publicIP)
+#addEventListener("startup", deploy_user_id)
 
 app.add_middleware(
     CORSMiddleware,
