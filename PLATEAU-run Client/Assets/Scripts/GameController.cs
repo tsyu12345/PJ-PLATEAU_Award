@@ -43,6 +43,10 @@ namespace GameManager {
         public TextMeshProUGUI PowerMeter;
         public TextMeshProUGUI SpeedMeter;
         public Button BackButton;
+        public float startTime;
+        public GameObject GoalUI;
+        public TextMeshProUGUI GoalText;
+        
         [SerializeField]
         private GameObject loadingUI;
 
@@ -51,10 +55,6 @@ namespace GameManager {
         private int dotCount = 0;
         private int PlayerCount = 0;
         private AudioSource audioSource;
-        public float startTime;
-
-        public GameObject GoalUI;
-        public TextMeshProUGUI GoalText;
 
 
 

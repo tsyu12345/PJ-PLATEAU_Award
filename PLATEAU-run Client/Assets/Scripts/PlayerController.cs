@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private static GoalEvent onGoal;
     public float endTime;
 
+    public delegate void OnLoadEvent();
+    public static OnLoadEvent OnLoad;
+
 
     
     void Update() {
@@ -125,6 +128,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
 
 
         loaded = true;
+        OnLoad?.Invoke();
     }
 
     public override void OnDisable() {
