@@ -40,6 +40,8 @@ namespace GameManager {
         public AudioClip NearGoalBGM;
         public AudioClip GoalBGM;
         public GameObject PlayerUI;
+        public Slider DistanceMeter;
+        public TextMeshProUGUI DistanceMeterText;
         public TextMeshProUGUI PowerMeter;
         public TextMeshProUGUI SpeedMeter;
         public Button BackButton;

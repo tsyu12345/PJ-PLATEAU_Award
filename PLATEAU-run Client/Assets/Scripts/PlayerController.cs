@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     private static GoalEvent onGoal;
     public float endTime;
 
+    private float totalDistance;
+
     public delegate void OnLoadEvent();
     public static OnLoadEvent OnLoad;
 
@@ -47,16 +49,17 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             //Debug.LogWarning("loaded is false");
             return; 
         }
+
+        agent.SetDestination(destination.transform.position);
+        UpdateDistanceMeter();
         if(gameManager.gameStarted == false) { 
             //Debug.LogWarning("gameManager.gameStarted is false");
             return; 
         }
-        agent.SetDestination(destination.transform.position);
         if(agent.remainingDistance < 150) {
             gameManager.nearGoal = true;
         }
         if (agent.remainingDistance <= agent.stoppingDistance && isGoal==false) {//ゴール時の処理
-            //Debug.LogWarning("Goal");
             isGoal = true;
             Wait();
             deviceInputManager.RemoveEventListener(OnDeviceInput);
@@ -69,7 +72,6 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             var resultText = ConvertSecondsToMinutes((int)resultTime);
             GoalTimeText.text = resultText;
 
-
             gameManager.gameFinished = true;
             onGoal?.Invoke();
         } else {
@@ -77,7 +79,6 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         }
         while (_mainThreadActions.Count > 0) {
             var action = _mainThreadActions.Dequeue();
-            Debug.LogWarning("Distance : " + agent.remainingDistance);
             if(action != null) { 
                 action.Invoke();
             }
@@ -126,6 +127,8 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         //子要素のカメラオブジェクトにAudioListenerを追加する
         playerCamera.AddComponent<AudioListener>();
 
+        //初期の経路距離を取得する
+        totalDistance = CalcRemainDistance();
 
         loaded = true;
         OnLoad?.Invoke();
@@ -221,6 +224,31 @@ public class PlayerController : MonoBehaviourPunCallbacks {
     /// <returns></returns>
     private static float CalcSpeed(float strength) {
         return 2.1f * strength;
+    }
+
+
+    private float CalcRemainDistance() {
+        NavMeshPath path = agent.path; //経路パス（曲がり角座標のVector3配列）を取得
+        float dist = 0f;
+        Vector3 corner = transform.position; //自分の現在位置
+        //曲がり角間の距離を累積していく
+        for (int i = 0; i < path.corners.Length; i++){
+            Vector3 corner2 = path.corners[i];
+            dist += Vector3.Distance(corner, corner2);
+            corner = corner2;
+        }
+        return dist;
+    }
+
+
+    private void UpdateDistanceMeter() {
+        var remainDistance = CalcRemainDistance();
+        //進んだ割合を計算する
+        var ratio = 1 - (remainDistance / totalDistance);
+        gameManager.DistanceMeter.value = ratio;
+        //m to kmに変換する
+        remainDistance = remainDistance / 1000;
+        gameManager.DistanceMeterText.text = string.Format("{0:F1}", remainDistance);
     }
 
 
