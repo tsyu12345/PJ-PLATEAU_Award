@@ -58,5 +58,7 @@ namespace PUN2 {
             Debug.Log($"{otherPlayer.NickName}が退出しました");
             OnPlayerLeft?.Invoke(otherPlayer);
         }
+
+        
     }
 }

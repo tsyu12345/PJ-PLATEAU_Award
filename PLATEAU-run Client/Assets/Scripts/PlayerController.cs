@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
             dist += Vector3.Distance(corner, corner2);
             corner = corner2;
         }
+        Debug.Log($"Distance: {dist}");
         return dist;
     }
 

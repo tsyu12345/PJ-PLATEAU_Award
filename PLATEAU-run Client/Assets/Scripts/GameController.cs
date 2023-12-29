@@ -32,13 +32,14 @@ namespace GameManager {
         public static event GameEvent OnGameStart;
         public TextMeshProUGUI CountDownUI;
         public string waitingText = "Waiting for other players";
-
-        [Header("Game Objects")]
+        [Header("Sound Settings")]
         public AudioClip startSE;
         public AudioClip mainBGM;
         public AudioClip WaitingBGM;
         public AudioClip NearGoalBGM;
         public AudioClip GoalBGM;
+
+        [Header("Game Objects")]
         public GameObject PlayerUI;
         public Slider DistanceMeter;
         public TextMeshProUGUI DistanceMeterText;

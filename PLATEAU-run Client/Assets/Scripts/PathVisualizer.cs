@@ -11,6 +11,7 @@ public class PathVisualizer : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         agent = GetComponent<NavMeshAgent>();
+        lineRenderer.gameObject.layer = LayerMask.NameToLayer("MiniMap");
     }
 
     void Update()
